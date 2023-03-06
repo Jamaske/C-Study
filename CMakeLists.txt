@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++ timus/1607.cpp.cpp)
+add_executable(C++ source/test2.cpp)
