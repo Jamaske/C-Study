@@ -1,6 +1,7 @@
 #include "Node1.h"
 
-Node1::Node1(int el){
+template<typename DT>
+Node1<DT>::Node1(DT el){
     data = el;
     link = nullptr;
 }

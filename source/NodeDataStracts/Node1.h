@@ -1,8 +1,12 @@
 #pragma once
+
+template<typename DT>//DT - Data Type
 struct Node1{
     //односвязный узел/звено хранения
-    int data;
+    DT data;
     Node1* link;
-    Node1(int el);
+    Node1(DT el);
 };
+
+#include "Node1.tpp"
 
