@@ -8,10 +8,10 @@ struct Queue{
     Slider1<DT>* end_sld;
 
     Queue();
+    bool not_empty();
     Node1<DT>* get_start_Node();
     Node1<DT>* get_end_Node();
 
-    bool not_empty();
     DT pop();
     void push(DT el);
 };

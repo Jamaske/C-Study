@@ -1,6 +1,6 @@
 template<typename DT>
 Queue<DT>::Queue(){
-    Node1<DT>* base_node = new Node1<DT>();
+    Node1<DT>* base_node = new Node1<DT>(0);
     Queue<DT>::start_sld = new Slider1<DT>(base_node);
     Queue<DT>::end_sld = new Slider1<DT>(base_node);
 }

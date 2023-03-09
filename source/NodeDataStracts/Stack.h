@@ -7,8 +7,8 @@ struct Stack{
     Slider1<DT>* top_sld;
 
     Stack();
-    Node1<DT>* get_top_Node();
     bool not_empty();
+    Node1<DT>* get_top_Node();
 
     DT pop();
     void push(DT el);

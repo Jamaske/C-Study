@@ -1,9 +1,12 @@
 #pragma once
 
+template<typename DT>
 struct Node2{
-    int data;
-    Node2* Rlink;
-    Node2* Llink;
+    DT data;
+    Node2<DT>* Rlink;
+    Node2<DT>* Llink;
 
-    Node2(int el);
+    Node2(DT el);
 };
+
+#include "Node2.tpp"

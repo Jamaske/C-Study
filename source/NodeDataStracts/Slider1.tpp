@@ -1,5 +1,4 @@
 
-
 template<typename DT>
 Slider1<DT>::Slider1(Node1<DT>* ptr){
     Slider1<DT>::ptr = ptr;
