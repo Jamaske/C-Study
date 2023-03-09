@@ -1,19 +1,19 @@
 #include <iostream>
-#include "../source/NodeDataStracts/Queue.h"
-#include "../source/NodeDataStracts/Stack.h"
+#include "expresion_solver.h"
 
 int main(){
-    Queue<int> num_queue;
-    num_queue.push(5);
-    std::cout << num_queue.pop() << std::endl;
-/*    Node1<char> node1('f');
-    std::cout << node1.data;
-    Slider1 sld(&node1);
+    solve tsk;
+    tsk.raw_expression = "NOT((A OR NOT B) AND (A OR B)) OR NOT (A AND NOT B OR TRUE)";
+    std::cout << tsk.raw_expression << std::endl;
 
+    tsk.preprocess();
+    std::cout << tsk.raw_expression << std::endl;
 
-    Node1 node2('r');
-    sld.insert(&node2);
-    sld.move(1);
-    std::cout << sld.ptr->data;*/
+    std::cout << tsk.calculate_raw() << std::endl;
+
+    tsk.convert_to_polish();
+    std::cout << tsk.pol_notation << std::endl;
+
+    std::cout << tsk.calculate_polish() << std::endl;
 }
 

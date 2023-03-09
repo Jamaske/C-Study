@@ -15,6 +15,11 @@ bool Stack<DT>::not_empty() {
 }
 
 template<typename DT>
+DT Stack<DT>::peek(){
+    return get_top_Node()->data;
+}
+
+template<typename DT>
 DT Stack<DT>::pop(){
     Node1<DT>* tmp = Stack<DT>::top_sld->cut();
     DT value = tmp->data;

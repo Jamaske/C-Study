@@ -10,6 +10,7 @@ struct Stack{
     bool not_empty();
     Node1<DT>* get_top_Node();
 
+    DT peek();
     DT pop();
     void push(DT el);
 
