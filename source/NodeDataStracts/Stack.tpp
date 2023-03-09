@@ -1,5 +1,3 @@
-#include "Stack.h"
-
 template<typename DT>
 Stack<DT>::Stack(){
     Node1<DT>* base_node = new Node1<DT>(0);

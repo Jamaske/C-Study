@@ -1,8 +1,6 @@
-#include "Queue.h"
-
 template<typename DT>
 Queue<DT>::Queue(){
-    Node1<DT>* base_node = new Node1<DT>(228);
+    Node1<DT>* base_node = new Node1<DT>();
     Queue<DT>::start_sld = new Slider1<DT>(base_node);
     Queue<DT>::end_sld = new Slider1<DT>(base_node);
 }
