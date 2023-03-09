@@ -1,6 +1,6 @@
 #include "expresion_solver.h"
 #include <iostream>
-#include "../source/NodeDataStracts/Stack.h"
+#include "../NodeDataStracts/Stack.h"
 
 
 
