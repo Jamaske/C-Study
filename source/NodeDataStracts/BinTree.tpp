@@ -3,9 +3,9 @@
 
 template<typename DT>
 void BinTree<DT>::Rprint(Node2<DT> *node) {
-    if (node!=nullptr) { //Пока не встретится пустой узел
-        Rprint(node->Rlink); //Рекурсивная функция для правого поддерева
-        Rprint(node->Llink); //Рекурсивная функция для левого поддерева
+    if (node!=nullptr) {
+        Rprint(node->Rlink);
+        Rprint(node->Llink);
         std::cout << node->data << std::endl; //Отображаем корень дерева
     }
 }

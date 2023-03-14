@@ -69,7 +69,7 @@ int pror(char c){
         case '&':
             return 2;
         case '!':
-            return 3;
+            return 10;
     }
 }
 
@@ -98,7 +98,7 @@ void solve::convert_to_polish(){
             continue;
         }
 
-        while (oper_stack.not_empty() && (pror(oper_stack.peek()) >= pror(ch))) {
+        while (oper_stack.not_empty() && (pror(oper_stack.peek()) >= pror(ch)) && (pror(ch) != 10)) {
             solve::pol_notation += oper_stack.pop();
         }
         oper_stack.push(ch);
@@ -203,7 +203,7 @@ bool solve::calculate_raw(){
             continue;
         }
 
-        while (oper_stack.not_empty() && (pror(oper_stack.peek()) >= pror(ch))) {
+        while (oper_stack.not_empty() && (pror(oper_stack.peek()) >= pror(ch)) && (pror(ch) != 10)) {
             execute_operation(values, oper_stack.pop());
 
         }
