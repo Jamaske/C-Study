@@ -1,33 +1,31 @@
 #include <iostream>
 #include "Vector.h"
-#include <iostream>
 
 using namespace std;
-
 int main() {
 
-    Vector A(1,3,5);
-    Vector B(3,6,5);
-    A.PrintVector();
-    B.PrintVector();
-    cout << "A length is: "<<A.Len() << endl;
-    cout << "B length is: "<<B.Len() << endl;
+    Vector X(3,3,3);
+    Vector Y(8,6,1);
+    X.PrintVector();
+    Y.PrintVector();
+    cout << "X len: "<<X.Len() << endl;
+    cout << "Y len: "<<Y.Len() << endl;
 
-    Vector C = A + B;
-    cout << "A+B=C";
-    C.PrintVector();
+    Vector Sum = X + Y;
+    cout << "sum of X, Y";
+    Sum.PrintVector();
 
-    double t=10;
-    C=C*t;
+    double t = 3;
+    Vector Scaled=Sum * t;
     cout << "C*t=";
-    C.PrintVector();
-///////////////////////////////////////////////////////////////
-    Segment Alpha(A,B) ;
-    cout << "Alpha.L0enght= "<<Alpha.Len() << endl;
-    cout <<"Now we are going to know is point C belong Alpha" << endl;
-    cout << "Alpha is: "; Alpha.PrintSegment();
-    cout << "point C: "; C.PrintVector();
-    cout << "Answer: " <<Alpha.IsBelong(C);
+    Scaled.PrintVector();
+
+    cout << "creating segment" << endl;
+    Segment A(X,Y) ;
+    cout << "A is: "; A.PrintSegment();
+    cout << "Len of A: "<<A.Len() << endl;
+    cout <<"check if sum is part of A" << endl;
+    cout << "Answer: " <<A.IsBelong(Sum);
     return 0;
 
 }
