@@ -25,7 +25,7 @@ int main() {
     cout << "A is: "; A.PrintSegment();
     cout << "Len of A: "<<A.Len() << endl;
     cout <<"check if sum is part of A" << endl;
-    cout << "Answer: " <<A.IsBelong(Sum);
+    cout << "result: " <<A.IsBelong(Sum);
     return 0;
 
 }
