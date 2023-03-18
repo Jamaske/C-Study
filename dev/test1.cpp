@@ -1,68 +1,46 @@
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <list>
+#include "cmath"
+
+template<typename DT>//DT - Data Type DN-Data Number
+class Node1{
+    //односвязный узел/звено хранения
+public:
+    DT *data;
+    Node1<DT>* link;
+    Node1(DT *el);
+};
 
 
-
-
-using namespace std;
-
-
-
-
-void PrintList(list<int>);
-
-
-int main() {
-    int matrix_size;
-    ifstream fin("matrix.txt");
-    fin >> matrix_size;
-
-    vector<vector<int>> matrix(matrix_size, vector<int>(matrix_size));
-    for (int i = 0; i < matrix_size; i++) {
-        for (int j = 0; j < matrix_size; j++) {
-            fin >> matrix[i][j];
-            cout << matrix[i][j];
-            cout << ' ';
-        }
-        cout << endl;
-    }
-
-    fin.close();
-
-
-
-
-    vector<list<int>> list_data(matrix_size);
-    for (int i = 0; i < matrix_size; i++) {
-        list<int> tmp_data;
-        for (int j = 0; j < matrix_size; j++) {
-            if (matrix[i][j] == 1) {
-                tmp_data.push_front(j+1);
-            }
-        }
-
-        cout << i + 1 << " -> ";
-        PrintList(tmp_data);
-        cout << endl;
-    }
-
-    return 0;
-
+template<typename DT>
+Node1<DT>::Node1(DT *el){
+    data = el;
+    link = nullptr;
 }
 
 
+struct NodeData{
+    int num;
+    int max;
+    int min;
 
-
-void PrintList(list<int> list) {
-
-    while (!list.empty()) {
-
-        cout << list.back() << ',';
-
-        list.pop_back();
-
+    NodeData(){
+        NodeData::num = 0;
+        max = INT32_MIN;
+        min = INT32_MAX;
     }
+
+    NodeData(int num, NodeData* prev){
+        NodeData::num =num;
+        max = std::max(num, prev->max);
+        min = std::min(num, prev->min);
+    }
+
+};
+
+
+using namespace std;
+int main(){
+
+
 
 }

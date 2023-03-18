@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++ source/Math/solver_test.cpp source/Math/expresion_solver.cpp)
+add_executable(C++ dev/test1.cpp)

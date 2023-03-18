@@ -17,7 +17,7 @@ void Slider1<DT>::insert(Node1<DT>* node){
 
 template<typename DT>
 Node1<DT>* Slider1<DT>::cut(){
-    Node1<DT>* value = Slider1<DT>::ptr->link;
-    Slider1<DT>::ptr->link = value->link;
-    return value;
+    Node1<DT>* node = Slider1<DT>::ptr->link;
+    Slider1<DT>::ptr->link = node->link;
+    return node;
 }
