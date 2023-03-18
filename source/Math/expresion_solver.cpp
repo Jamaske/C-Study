@@ -3,7 +3,6 @@
 #include "../NodeDataStracts/Stack.h"
 
 
-
 void solve::preprocess(){
     /* Удаляет пробелы.
      * Распознаёт и заменяет следующие наборы символов
