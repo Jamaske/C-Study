@@ -1,16 +1,17 @@
-#pragma once
+//#include "Matrix.h"
 #include <iostream>
 
 typedef unsigned short us;
+typedef unsigned int ui;
 template<typename T>
 class Matrix{
     const us height, width;
 public:
 
-    T **arr;
+    T *arr;
 
     Matrix(us height,us width) : height(height), width(width) {
-        Matrix::arr[height][width] = {1,2,3,4};
+        Matrix::arr = new T[height * width];
     }
 
     Matrix(Matrix& reference){
@@ -19,6 +20,10 @@ public:
         Matrix::arr = reference.arr;
     }
     //typedef Matrix<T, height, width> equivalent;
+
+    T& operator [](ui idx){
+
+    }
 
     void read_concole(){//переписать на принимание любого потока для чтения из файла
         for(us i = 0; i < height; i++){
@@ -66,3 +71,19 @@ public:
 
 
 };
+
+int main(){
+    us h, w;
+    //h = 2; w = 2;
+    std::cin >> h >> w;
+    int c = 0;
+    Matrix<int> a(2,2);
+    for(int i = 0; i < h; i++){
+        for(int j = 0; j < w; j++){
+            a.arr[i][j] = c++ ;
+        }
+    }
+    c++;
+
+
+}
