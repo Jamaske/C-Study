@@ -6,9 +6,8 @@ typedef unsigned int ui;
 template<typename T>
 class Matrix{
     const us height, width;
-public:
-
     T *arr;
+public:
 
     Matrix(us height,us width) : height(height), width(width) {
         Matrix::arr = new T[height * width];
@@ -41,6 +40,11 @@ public:
             std::cout << "\n";
         }
     }
+
+    T* operator[](us i){
+        return &(arr + i*width);
+    }
+
 /*
 
     Matrix<T> operator + (equivalent other){
@@ -80,7 +84,7 @@ int main(){
     Matrix<int> a(2,2);
     for(int i = 0; i < h; i++){
         for(int j = 0; j < w; j++){
-            a.arr[i][j] = c++ ;
+            a[i]
         }
     }
     c++;
