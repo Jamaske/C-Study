@@ -84,18 +84,22 @@ struct point{
         return ;
 
     }*/
+
 };
 
 
 
 using namespace std;
 int main(){
-    point a(3,4);
-    point b(4,3);
-    //point c(5,5);
-    point d = (a + b);
-    d.print();
-
+    int a[15];
+    for(int i = 0; i < 15; i++){
+        a[i] = i;
+    }
+    int* sub = &a[2*5];
+    sub[1] = 42;
+    for(int i = 0; i < 15; i++){
+        std::cout << a[i] << ' ';
+    }
 
 
 }
