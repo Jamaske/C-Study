@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++ Notes/class_related.cpp)
+add_executable(C++ dev/matrix_test.cpp)

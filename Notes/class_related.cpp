@@ -71,19 +71,20 @@ struct point{
 
     const point operator*(const point& right){
         return point(point::x * right.x, point::y * right.y);
-        //Нужно избавиться от самой временной переменной. Не вызывать для неё конструктор и в последствии деконструктор.
+        //Нужно избавиться именно от временной переменной. Не вызывать её конструктор и в последствии деконструктор.
         //При такой записи создаваемый конструктором объект сразу присваивается безымянной переменной.
         //Аналогично записи: int a = int(5);
     }
 
-/*    point& operator = (const point& right){
+    point& operator = (const point& right){
         if(this == &right){
             return *this;
         }
-         = &point(right);
-        return ;
+        delete this;
 
-    }*/
+        return *this;
+
+    }
 
 };
 
