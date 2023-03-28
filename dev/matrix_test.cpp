@@ -114,67 +114,99 @@ public:
 };
 
 
-template<typename U>
+template<typename U = int>
 void Gaus(Matrix<U> &solve, Matrix<U> &add) {
     if (solve.height != add.height) std::cout << "Gaus method need matrices with same height\n";
 
-    U *tmp_solve_row = new U[solve.width];//для перестановки строк местами
-    U *tmp_add_row = new U[add.width];
+    U *row_buffer = new U[std::max(solve.width, add.width)];//для перестановки строк местами
     us width = solve.width, height = solve.height;
 
-    us smallest, next_smallest;
+    U smallest, prev_smallest, cur, k;
+    us prev_smallest_row, smallest_row, row, column;
     us row_completion = 0, column_completion;
-    for (column_completion = 0; column_completion < width; column_completion++) {
+    bool flg;
 
-        smallest = height;
-        for (us row = row_completion; row < height; ++row) {//ищем строчку с наименьшим не нулевым значением ниже готовых строк
-            if (solve[row][column_completion]) {
-                if (smallest > height || abs(solve[row][column_completion]) < abs(solve[smallest][column_completion])) smallest = row;
+    for (column_completion = 0; column_completion < width; column_completion++) {//Перебираем столбцы и приводим к ступенчатому виду. Далее текущий приводимый столбец называется рабочим.
+        //Также помимо переменной указывающей количество законченных столбцов есть переменная для строк, которые нельзя вычитать из тех, что ниже, чтобы не попортить готовые нули.
+        //Область правее column_completion и ниже row_completion, на которой матрица ещё не приведена, далее называется рабочей областью
+        std::cout << "====column: " << column_completion <<std::endl;
+
+
+        for(row = row_completion; row < height && !solve[row][column_completion]; ++row);//ищем первое не нулевое значение в рабочем столбце
+        if (row >= height) continue;//если не нашли - скипаем столбец
+
+        smallest = solve[ (smallest_row = row) ][column_completion];
+        while(++row < height){//ищем строчку с наименьшим не нулевым значением ниже готовых строк
+            cur = solve[row][column_completion];
+            if(cur && abs(cur) < abs(smallest)) {
+                smallest_row = row;
+                smallest = cur;
             }
         }
-        if (smallest < 0) continue;//в столбце либо только нули, либо нули ниже готовых строк - скипаем
 
+        do {//вычитаем строки между друг другом как в алгоритме Евклида в рабочей области
+            prev_smallest_row = smallest_row;
+            prev_smallest = smallest;
+            std::cout << "smallest: " << prev_smallest << '\n';
+            flg = false;//флаг говорящий о том, что в рабочей области остаются не нулевые значения
 
-        bool flg;
-        do {//вычитаем строки между друг другом
-            next_smallest = -1;
-            flg = false;
-            U k;
-            for (us row = row_completion; row < height; ++row) {//вычетаем из всех недоделанных строк данную с нужными коэффициентами
-                if (row == smallest) continue;//вычитать саму из себя нельзяб
-                k = solve[row][column_completion] / solve[smallest][column_completion]; //считаем сколько раз из текущей строки нужно вычесть наименьшую
+            for (row = row_completion; row < height; ++row) {//вычетаем из всех недоделанных строк данную с нужными коэффициентами
+                if (row == prev_smallest_row) continue;//вычитать саму из себя нельзяб
+                k = (solve[row][column_completion] + (prev_smallest >> 1)) / prev_smallest; //считаем сколько раз из текущей строки нужно вычесть наименьшую
                 if (k) {
-                    for (us column = column_completion; column < width; ++column) {
-                        solve[row][column] -= k * solve[smallest][column];
+                    std::cout << "k = " << k << ":\t";
+                    for (column = column_completion; column < width; ++column) {
+                        solve[row][column] -= k * solve[prev_smallest_row][column];
+                        std::cout <<solve[row][column] << '\t';
                     }
-                    for (us column = 0; column < add.width; ++column) {
-                        add[row][column] -= k * add[smallest][column];
+                    for (column = 0; column < add.width; ++column) {
+                        add[row][column] -= k * add[prev_smallest_row][column];
                     }
+                    std::cout << '\n';
                 }
-                if (solve[row][column_completion]) {
-                    if(row > row_completion) flg = true;
-                    if (next_smallest < 0 || abs(solve[row][column_completion]) < abs(solve[next_smallest][column_completion]))
-                        next_smallest = row;
+                cur = solve[row][column_completion];
+                if (cur) {//проверяем остаётся ли в рабочем столбце не нулевое число
+                    flg = true;
+                    if (abs(cur) < abs(smallest))
+                        smallest = solve[(smallest_row = row)][column_completion];
                 }
             }
-            smallest = next_smallest;
-        } while (flg);
 
-        if (smallest != row_completion) {//если строка с последним числом не наверху рабочей области - свапаем её туда
+        } while (flg);
+        std::cout << "----upper rows---\n";
+        for(row = 0; row < row_completion; ++row){
+
+            k = solve[row][column_completion] / smallest;
+            if (k) {
+                std::cout << "k = " << k << ":\t";
+                for (column = column_completion; column < width; ++column) {
+                    solve[row][column] -= k * solve[smallest_row][column];
+                    std::cout <<solve[row][column] << '\t';
+                }
+                for (column = 0; column < add.width; ++column) {
+                    add[row][column] -= k * add[smallest_row][column];
+                }
+            }
+            std::cout << '\n';
+
+
+        }
+
+        if (smallest_row != row_completion) {//если строка с последним числом не наверху рабочей области - свапаем её туда
             //свапоем solve
             ui len = (width - column_completion) * sizeof(U);
             U *top_row = solve[row_completion] + column_completion;
-            U *nonzero_row = solve[smallest] + column_completion;
-            memcpy(tmp_solve_row, top_row, len);
+            U *nonzero_row = solve[smallest_row] + column_completion;
+            memcpy(row_buffer, top_row, len);
             memcpy(top_row, nonzero_row, len);
-            memcpy(nonzero_row, tmp_solve_row, len);
+            memcpy(nonzero_row, row_buffer, len);
             //и add
             len = add.width * sizeof(U);
             top_row = add[row_completion];
-            nonzero_row = add[smallest];
-            memcpy(tmp_add_row, top_row, len);
+            nonzero_row = add[smallest_row];
+            memcpy(row_buffer, top_row, len);
             memcpy(top_row, nonzero_row, len);
-            memcpy(nonzero_row, tmp_add_row, len);
+            memcpy(nonzero_row, row_buffer, len);
         }
         ++row_completion;
     }
@@ -182,28 +214,31 @@ void Gaus(Matrix<U> &solve, Matrix<U> &add) {
 }
 
 int main() {
+
     us h, w;
     //h = 2; w = 2;
     //std::cin >> h >> w;
     int count = 0;
-    Matrix<int> a(3, 3);
+    Matrix<int> a(4, 4);
+    Matrix<int> b(4, 4);
 
-
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            a[i][j] = count++;
+    srand( 15);
+    for (int i = 0; i < 4; ++i) {
+           for (int j = 0; j < 4; ++j) {
+               a[i][j] = rand()%10;
+           }
+    }
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            b[i][j] = rand()%10;
         }
     }
-    //a.read_concole();
     a.print_console();
-    Matrix b(!a);
-    b.print_console();
-    //Matrix c(b * a);
-    //c.print_console();
-    //Matrix d(!c);
-    //d.print_console();
+    //b.print_console();
     Gaus(a, b);
+    std::cout << "======================" <<std::endl;
     a.print_console();
+    b.print_console();
 
 
 }

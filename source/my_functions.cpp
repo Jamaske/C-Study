@@ -262,19 +262,7 @@ void GetTransposedMatrix(int **&matrix, int **&matrixT, int h, int w){
     }
 }
 
-void prefixfuc(char *str, int *pi, int len) {
-    pi[0] = 0;
-    int i = 0, j = 0;
-    //для любого i ограничено сверху числом len
-    while (++i < len) {
-        //отображение str само на себя сюрьективно, так как из не равенства аргументов
-        // (i огр сверху, а j стремиться к 0) следует не равенство значений функции str в них
-        //выберем в качестве произвольного j число значение j-ого знака числа pi
-        while (str[i] != str[j] && j-->0) j = pi[j];
-        //получим что для любого i < len, i-ный символ числа pi равен приделу числа j справа
-        pi[i] = ++j;
-    }
-}
+
 
 //List
 template<typename elType>
@@ -748,6 +736,47 @@ Line intersection(Plane &P){
 
 
 };
+
+
+//разное
+
+void prefixfuc(char *str, int *pi, int len) {
+    pi[0] = 0;
+    int i = 0, j = 0;
+    //для любого i ограничено сверху числом len
+    while (++i < len) {
+        //отображение str само на себя сюрьективно, так как из не равенства аргументов
+        // (i огр сверху, а j стремиться к 0) следует не равенство значений функции str в них
+        //выберем в качестве произвольного j число значение j-ого знака числа pi
+        while (str[i] != str[j] && j-->0) j = pi[j];
+        //получим что для любого i < len, i-ный символ числа pi равен приделу числа j справа
+        pi[i] = ++j;
+    }
+}
+
+double precise_sum(double &a,const double &b){
+    //принимает a, b: a+b<inf
+    //возвращает погрешность суммы, и заменяет первый аргумент суммой
+    double s = a + b, r = s - b;
+    r = (a - r) + (b - (s - r));
+    a = s;
+    return r;
+}
+
+double precise_sum(const double &a,const double &b, double &s){
+    //принимает a, b: a+b<inf
+    //возвращает погрешность суммы, и записывает суммы в 3 аргумент
+    s = a + b;
+    double r = s - b;
+    return r = (a - r) + (b - (s - r));
+}
+
+double precise_sum_ordered(const double &a,const double &b, double &s){
+    //принимает a, b: a+b<inf, a > b
+    //возвращает погрешность суммы, и записывает суммы в 3 аргумент
+    s = a + b;
+    return b - (s - a);
+}
 
 
 int main(){
