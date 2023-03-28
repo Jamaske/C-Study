@@ -4,22 +4,6 @@
 
 
 
-
-
-
-int main(){
-    quadr a, b;
-    a = 0.1;
-    std::cout << std::setprecision(100) << a.high << '\n';
-    for(int i = 0; i < 50; i++){
-        a.inc(a+0.1);
-    }
-    std::cout << a.high << '\n' << a.low << '\n' ;
-
-}
-
-/*
-
 int main(){
     int a = 14, b = -7;
     int k, k2, dif, dif2, shift;
@@ -49,4 +33,4 @@ int main(){
         << std::endl;
     }
 
-}*/
+}
