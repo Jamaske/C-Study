@@ -44,6 +44,7 @@ int main(){
         for(ui j = 0; j < n; ++j){
             std::cin >> cur;
             if(cur!='0'){
+                if(i == j) continue;
                 if(i < j){
                     colour_cur = colour_up;
                     min = i;
