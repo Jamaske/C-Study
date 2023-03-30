@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++ dev/1.cpp source/Math/quadr.cpp source/Math/quadr.h)
+add_executable(C++  timus/1709.cpp)
