@@ -20,9 +20,9 @@ struct queue{
         last = last->prev = New;
     }
     node* pop(){
-        node& ret = *(base->prev);
-        base->prev = ret.prev;
-        return &ret;
+        node* ret = (base->prev);
+        if(ret != nullptr) base->prev = ret->prev;
+        return ret;
     }
     node* peek(){
         return (base->prev);
@@ -100,7 +100,7 @@ int main(){
     }
 
     std::cout << total_cost << '\n';
-    node* next = deleteion_queue.peek();
+    node* next = deleteion_queue.pop();
     for(ui i = 0; i < n; ++i){
         for(ui j = 0; j < n; ++j){
             if((!i && additions[j]) || (!j && additions[i])){
@@ -108,8 +108,7 @@ int main(){
                 continue;
             }
             if(next != nullptr && next->row == i && next->column == j){
-                deleteion_queue.pop();
-                next = deleteion_queue.peek();
+                next = deleteion_queue.pop();
                 std::cout << 'd';
                 continue;
             }
