@@ -12,6 +12,7 @@ struct bitset{
 
 
 
+
 int main(){
     bitset<65> set;
     std::cout << sizeof(set);
