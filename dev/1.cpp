@@ -4,33 +4,22 @@
 
 
 
-int main(){
-    int a = 14, b = -7;
-    int k, k2, dif, dif2, shift;
-    std::cout <<a - (a/b)*b
-    << '\n';
-    for(a = -15; a < 15; a ++){
-        if(!a){std::cout << '\n'; continue;}
-
-        k = a/b; dif = a - b * k;
-
-
-        //shift = (a > 0? abs(b):-abs(b)) /2;
-
-        k2 = (a / b);
-        shift = ( (a-b*k2) << 1) / b;
-        k2 = k2 + shift;
-        dif2 = a - b * k2;
-
-        std::cout
-        << "a: " << a << '\t'
-        << "k:" << k << '\t'
-        << "dif:" << dif << '\t'
-        << '\t'
-        << "sh:" << shift << '\t'
-        << "k2:" << k2 << '\t'
-        << "dif2:" << dif2 << '\t'
-        << std::endl;
+class A{
+public:
+    static int f;
+    int operator[](int a){
+        return a << 2;
     }
+    int operator()(int idx1, int idx2){
+        return  idx1 + idx2;
+    }
+};
 
+int A::f;
+
+int main(){
+    A::f = 5;
+    int a = 203;
+    A obj;
+    std::cout << obj[5];
 }

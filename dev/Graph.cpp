@@ -1,21 +1,23 @@
 #include <iostream>
+#include <bitset>
 
-template<size_t len>
-struct bitset{
-    uint64_t arr[((len-1)>>6) + 1];
-    bool operator[](size_t idx){
-        std::cout << '\n' << (idx >> 6) << '\n';
-        return arr[idx >> 6] & (1 << (idx & 63));
-    }
+class Graph{
+protected:
+public:
+    const bool directional;
+
+    const uint32_t vertices_number;
 
 };
 
 
 
 
-int main(){
-    bitset<65> set;
-    std::cout << sizeof(set);
-    set.arr[1] = 1;
-    std::cout << set[63];
-}
+class Adj_Matrix: Graph{
+public:
+
+    std::bitset<vertices_number> Matrix;
+};
+
+
+
