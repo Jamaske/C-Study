@@ -1,5 +1,8 @@
 #include <iostream>
-#include <bitset>
+
+
+
+
 
 class Graph{
 protected:
@@ -16,7 +19,6 @@ public:
 class Adj_Matrix: Graph{
 public:
 
-    std::bitset<vertices_number> Matrix;
 };
 
 
