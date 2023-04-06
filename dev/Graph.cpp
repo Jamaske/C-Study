@@ -4,11 +4,10 @@
 
 
 
-class Graph{
-protected:
-public:
-    const bool directional;
 
+
+class Graph{
+public:
     const uint32_t vertices_number;
 
 };
