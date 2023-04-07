@@ -1,7 +1,14 @@
 #include "BitSet.h"
 #include <iostream>
 
-BitSet::BitSet(size_t size) {
+BitSet::BitSet(size_t size, bool default_value) {
+    default_value = default_value ? 0xFFFFFFFFFFFFFFFF:0;
+    bits = size;
+    len = (size >> 6) + (bool)(size & 0b111111);
+    storage = new uint64_t [size] {default_value};
+}
+
+BitSet::BitSet(size_t size): BitSet(size, false) {
     bits = size;
     len = (size >> 6) + (bool)(size & 0b111111);
     storage = new uint64_t [size] {0};
@@ -43,7 +50,7 @@ void BitSet::flip(size_t idx) {
     *(storage + (idx >> 6)) ^= (1 << (idx & 0b111111));
 }
 
-BitSet &BitSet::operator|(const BitSet & RHS){
+BitSet BitSet::operator|(const BitSet & RHS){
     BitSet ret(std::max(bits, RHS.bits));
 
     //копирование не пересекающихся частей можно попробовать переписать через memcpy
@@ -60,7 +67,7 @@ BitSet &BitSet::operator|(const BitSet & RHS){
     return ret;
 }
 
-BitSet &BitSet::operator&(const BitSet &RHS) {
+BitSet BitSet::operator&(const BitSet &RHS) {
     BitSet ret(std::max(bits, RHS.bits));
     //зануленное непересекающихся частей делать не нужно
     for(size_t i = 0; i < std::min(len, RHS.len); ++i){
@@ -70,7 +77,7 @@ BitSet &BitSet::operator&(const BitSet &RHS) {
 
 }
 
-BitSet &BitSet::operator^(const BitSet &RHS) {
+BitSet BitSet::operator^(const BitSet &RHS) {
     BitSet ret(std::max(bits, RHS.bits));
 
     //копирование не пересекающихся частей

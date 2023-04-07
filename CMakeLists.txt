@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++    dev/BitSet.cpp dev/BitSet.h)
+add_executable(C++    dev/BitSet.cpp dev/BitSet.h timus/1671.cpp)

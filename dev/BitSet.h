@@ -8,6 +8,7 @@ class BitSet{
 
 public:
     BitSet(size_t size);
+    BitSet(size_t size, bool default_value);
     BitSet(const BitSet& src);
     ~BitSet();
 
@@ -17,8 +18,8 @@ public:
     void set_to(size_t idx, bool state);//set a bit at given index to given state
     void flip(size_t idx);//invert a bit at given index
 
-    BitSet& operator|(const BitSet& RHS);
-    BitSet& operator&(const BitSet& RHS);
-    BitSet& operator^(const BitSet& RHS);
+    BitSet operator|(const BitSet& RHS);
+    BitSet operator&(const BitSet& RHS);
+    BitSet operator^(const BitSet& RHS);
     //BitSet& operator<<(size_t shift); //тяжко
 };
