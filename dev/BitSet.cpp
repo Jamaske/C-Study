@@ -1,18 +1,16 @@
 #include "BitSet.h"
 #include <iostream>
+#include <cstring>
 
 BitSet::BitSet(size_t size, bool default_value) {
-    default_value = default_value ? 0xFFFFFFFFFFFFFFFF:0;
     bits = size;
-    len = (size >> 6) + (bool)(size & 0b111111);
-    storage = new uint64_t [size] {default_value};
+    len = (size >> 6) + (bool)(bits & 0b111111);
+    storage = new uint64_t [len];
+    std::memset(storage, default_value * 0xFF, len * 8);
+    storage[len-1] &= ~(-1 << (bits & 0b111111));
 }
 
-BitSet::BitSet(size_t size): BitSet(size, false) {
-    bits = size;
-    len = (size >> 6) + (bool)(size & 0b111111);
-    storage = new uint64_t [size] {0};
-}
+BitSet::BitSet(size_t size): BitSet(size, false){}
 
 BitSet::BitSet(const BitSet &src): BitSet(src.bits){
     memcpy(storage, src.storage, len << 3);//каждый uint64 занимает 8 байт, поэтому << 3
@@ -21,6 +19,20 @@ BitSet::BitSet(const BitSet &src): BitSet(src.bits){
 BitSet::~BitSet() {
     delete[] storage;
 }
+
+void BitSet::log(){
+    std::cout << "BitSet: " <<  this << " log\n";
+    uint64_t  el;
+    for(size_t i = len; i-->0;){
+        el = storage[i];
+        for(uint_fast8_t j = 64; j-->0;){
+            std::cout<< (bool)(el & ((uint64_t)1 << j));
+        }
+        std::cout << '\t' << el << '\n';
+    }
+    std::cout << '\n';
+}
+
 
 BitSet &BitSet::operator=(const BitSet &ref) {
     if(this != &ref){
@@ -31,6 +43,15 @@ BitSet &BitSet::operator=(const BitSet &ref) {
             storage = new uint64_t [len];
         }
         memcpy(storage, ref.storage, len << 3);
+    }
+    return *this;
+}
+
+BitSet &BitSet::operator=(BitSet &&ref){
+    if(this != &ref){
+        std::swap(bits, ref.bits);
+        std::swap(len, ref.len);
+        std::swap(storage, ref.storage);
     }
     return *this;
 }
@@ -71,7 +92,7 @@ BitSet BitSet::operator&(const BitSet &RHS) {
     BitSet ret(std::max(bits, RHS.bits));
     //зануленное непересекающихся частей делать не нужно
     for(size_t i = 0; i < std::min(len, RHS.len); ++i){
-        ret.storage[i] = this->storage[i] | RHS.storage[i];
+        ret.storage[i] = this->storage[i] & RHS.storage[i];
     }
     return ret;
 
@@ -93,22 +114,3 @@ BitSet BitSet::operator^(const BitSet &RHS) {
     }
     return ret;
 }
-
-
-
-/*BitSet &BitSet::operator<<(size_t shift) {
-    BitSet ret(bits);
-    size_t block_shift = shift >> 6;
-    uint_fast16_t bit_shift = shift & 0x111111;
-    uint64_t carry = 0, block;
-
-    for(size_t i = block_shift; i < ret.len; ++i){
-        ret.storage[i] = carry;
-        block = storage[i - block_shift];
-        carry = block >> (64 - bit_shift);
-    }
-}*/
-
-
-
-
