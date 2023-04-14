@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "BitSet.h"
+#include "../source/BitSet.h"
 //template<typename NodeIndexType, NodeIndexType, >
 
 class Graph{
