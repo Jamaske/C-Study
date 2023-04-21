@@ -58,8 +58,4 @@ int main(){
         reversed_answer.pop();
     }
 
-
-
-
-
 }
