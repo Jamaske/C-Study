@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++   dev/1.cpp)
+add_executable(C++ dev/DynArr.h dev/MinHeapBinTree.cpp dev/MinHeapBinTree.h)

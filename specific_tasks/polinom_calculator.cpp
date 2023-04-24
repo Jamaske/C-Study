@@ -5,7 +5,7 @@
 #include <fstream>
 
 using namespace std;
-const string InputPath = "C:\\Users\\User\\data\\my_scripts\\C++\\inp.txt";
+const string InputPath = "C:\\Users\\User\\data\\my_scripts\\C++\\inp1.txt";
 const string OutputPath = "C:\\Users\\User\\data\\my_scripts\\C++\\out.txt";
 
 void Swap2(int i, int j,int *arr, int* arr2){

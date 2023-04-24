@@ -4,7 +4,7 @@
 
 
 using namespace std;
-const string filenameIn = "C:\\Users\\Egor\\C++\\Individual6\\inp.txt";
+const string filenameIn = "C:\\Users\\Egor\\C++\\Individual6\\inp1.txt";
 
 
 int main() {

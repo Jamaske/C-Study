@@ -3,7 +3,7 @@ using namespace std;
 #include <string>
 #include <fstream>
 
-const string filenameIn = "C:\\Users\\Egor\\C++\\LongStringLikeInt\\inp.txt";
+const string filenameIn = "C:\\Users\\Egor\\C++\\LongStringLikeInt\\inp1.txt";
 const string filenameOut = "C:\\Users\\Egor\\C++\\LongStringLikeInt\\out.txt";
 
 

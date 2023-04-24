@@ -4,7 +4,7 @@
 #include <algorithm>
 
 using namespace std;
-const string InputPath = "C:\\Users\\User\\data\\my_scripts\\C++\\inp.txt";
+const string InputPath = "C:\\Users\\User\\data\\my_scripts\\C++\\inp1.txt";
 
 int main(){
 
