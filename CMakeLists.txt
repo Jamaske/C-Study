@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++ dev/DynArr.h dev/DynArr.cpp  dev/backpack.cpp)
+add_executable(C++    timus/2123.cpp)
