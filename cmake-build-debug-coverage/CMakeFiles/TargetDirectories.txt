@@ -1,0 +1,3 @@
+C:/Users/User/data/my_scripts/C++/cmake-build-debug-coverage/CMakeFiles/C++.dir
+C:/Users/User/data/my_scripts/C++/cmake-build-debug-coverage/CMakeFiles/edit_cache.dir
+C:/Users/User/data/my_scripts/C++/cmake-build-debug-coverage/CMakeFiles/rebuild_cache.dir
