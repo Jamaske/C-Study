@@ -1,4 +1,4 @@
-#include "DynArr.h"
+
 #include "algorithm"
 
 
@@ -52,6 +52,12 @@ DynArr<T>& DynArr<T>::operator=(DynArr&& Lvalue) noexcept {
     return *this;
 }
 
+
+template<typename T>
+size_t DynArr<T>::get_size() {
+    return size;
+}
+
 template<typename T>
 T &DynArr<T>::operator[](const size_t idx) {
 
@@ -68,8 +74,8 @@ T &DynArr<T>::operator[](const size_t idx) {
 template<typename T>
 void DynArr<T>::resize(size_t new_allocation) {
     if(allocation == new_allocation) return;
-    T* new_storage = new T[new_allocation];
-    std::memcpy(storage, new_storage, std::min(allocation, new_allocation) * sizeof(T));
+    T* new_storage = new T[new_allocation]{0};
+    std::memcpy(new_storage, storage, std::min(allocation, new_allocation) * sizeof(T));
     delete[] storage;
     storage = new_storage;
     allocation = new_allocation;
@@ -90,7 +96,10 @@ void DynArr<T>::insert(size_t idx, const T &value) {
         size_t new_allocation = allocation;
         while (idx >= (new_allocation <<= 1));
         resize(new_allocation);
+
     }
+
+    if(idx >= size) size = idx + 1;
     storage[idx] = value;
 }
 
