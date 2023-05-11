@@ -1,17 +1,23 @@
 #include <iostream>
-#include "DynArr.h"
+//#include "PriorQueue.h"
+
+bool comparator(int a, int b){
+    return a < b;
+}
+
+void wrapper(int first, int second, bool(*cmp)(int, int)){
+    std::cout << cmp(first, second);
+}
+
+template<typename T, typename cmp>
+void wrapper2(T first, T second){
+    std::cout << cmp(first, second);
+}
 
 int main(){
-    DynArr<int> a;
-    for(int i = 0; i <= 20; ++i){
-        a.append(i*i);
-    }
+    wrapper(5,6, comparator);
+    wrapper2<int, comparator>(5, 6);
 
-    a.insert(1677, 15);
-    std::cout << a.pop();
-    for(int i = 0; i < a.get_size(); ++i){
-        std::cout << a[i] << '\n';
-    }
 
 
 

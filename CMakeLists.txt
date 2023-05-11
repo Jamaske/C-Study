@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++    dev/PriorQueue.h dev/PriorQueue.cpp)
+add_executable(C++   dev/1.cpp )
