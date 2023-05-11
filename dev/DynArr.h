@@ -3,15 +3,15 @@
 
 template<typename T>
 class DynArr{
-public:
     T*storage;
     size_t allocation;
-
     size_t size;
 
     static const size_t base_allocation = 16;
+
     explicit DynArr(size_t allocation);
     void resize(size_t new_allocation);
+public:
     explicit DynArr();
     DynArr(DynArr& src);
     DynArr(DynArr&& src) noexcept ;

@@ -42,6 +42,7 @@ public:
             ++under_counter;
             return 0;
         }
+
         if(req_sum == 0){
             ++exact_counter;
             return 1;
