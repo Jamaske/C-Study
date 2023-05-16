@@ -1,7 +1,7 @@
 #pragma once
 #include "DynArr.h"
 
-template<typename T, bool (*cmp)(T, T)>
+template<typename T>
 class PriorQueue{
     DynArr<T> data;
     size_t size;
@@ -9,124 +9,123 @@ class PriorQueue{
 public:
     PriorQueue();//constructor
     ~PriorQueue();
-    PriorQueue(PriorQueue<T, bool (*cmp)>& Rvalue_src);//copy constructor
-    PriorQueue(PriorQueue<T, bool (*cmp)>&& Lvalue_src) noexcept ;//move constructor
-    PriorQueue<T, bool (*cmp)>& operator=(PriorQueue<T, bool (*cmp)> const& Rvalue);//copy assigment
-    PriorQueue<T, bool (*cmp)>& operator=(PriorQueue<T, bool (*cmp)> && Lvalue) noexcept;//move assigment
+    PriorQueue(PriorQueue<T>& Rvalue_src);//copy constructor
+    PriorQueue(PriorQueue<T>&& Lvalue_src) noexcept ;//move constructor
+    PriorQueue<T>& operator=(PriorQueue<T> const& Rvalue);//copy assigment
+    PriorQueue<T>& operator=(PriorQueue<T> && Lvalue) noexcept;//move assigment
 
     bool not_empty();
-    void add(T new_obj);
     const T& peek_top();
     T pop_top();
     T get_item(size_t idx);
+    void add(T new_obj);
     void change_item(size_t idx, T value);
 private:
-    void bubble_up(size_t idx);
-    void bubble_down(size_t idx);
+    void sieve_up(size_t idx);
+    void sieve_down(size_t idx);
 };
 
 //basic class stuff
-template<typename T, bool (*cmp)(T, T)>
-PriorQueue<T, &cmp>::PriorQueue():
+template<typename T>
+PriorQueue<T>::PriorQueue():
     data(DynArr<T>()), size(0){}
 
-template<typename T, bool (*cmp)(T, T)>
-PriorQueue<T, &cmp>::~PriorQueue() {
+template<typename T>
+PriorQueue<T>::~PriorQueue() {
     data.~DynArr();
 }
 
-template<typename T, bool (*cmp)(T, T)>
-PriorQueue<T, &cmp>::PriorQueue(PriorQueue<T, &cmp> &Rvalue_src):
+template<typename T>
+PriorQueue<T>::PriorQueue(PriorQueue<T> &Rvalue_src):
     data(Rvalue_src.data), size(Rvalue_src.size) {}
 
-template<typename T, bool (*cmp)(T, T)>
-PriorQueue<T, &cmp>::PriorQueue(PriorQueue<T, &cmp> &&Lvalue_src) noexcept:
+template<typename T>
+PriorQueue<T>::PriorQueue(PriorQueue<T> &&Lvalue_src) noexcept:
     data(Lvalue_src.data), size(Lvalue_src.size) {//might not really move but copy
 }
 
-
-
-template<typename T, bool (*cmp)(T, T)>
-PriorQueue<T, &cmp> &PriorQueue<T, &cmp>::operator=(const PriorQueue<T, &cmp> &Rvalue) {
+template<typename T>
+PriorQueue<T> &PriorQueue<T>::operator=(const PriorQueue<T> &Rvalue) {
     data = Rvalue.data;
     size = Rvalue.size;
     return *this;
 }
 
-template<typename T, bool (*cmp)(T, T)>
-PriorQueue<T, &cmp> &PriorQueue<T, &cmp>::operator=( PriorQueue<T, &cmp> &&Lvalue)  noexcept {
+template<typename T>
+PriorQueue<T> &PriorQueue<T>::operator=( PriorQueue<T> &&Lvalue)  noexcept {
     data = Lvalue.data;//same thing
     std::swap(size, Lvalue.size);
     return *this;
 }
 
 
-template<typename T, bool (*cmp)(T, T)>
-void PriorQueue<T, &cmp>::add(T new_obj) {
+
+template<typename T>
+void PriorQueue<T>::add(T new_obj) {
     data.append(new_obj);
     size = data.get_size();
-    bubble_up(size - 1);
+    sieve_up(size - 1);
 }
 
-template<typename T, bool (*cmp)(T, T)>
-const T &PriorQueue<T, &cmp>::peek_top() {
+template<typename T>
+const T &PriorQueue<T>::peek_top() {
     return data[0];
 }
 
-template<typename T, bool (*cmp)(T, T)>
-T PriorQueue<T, &cmp>::pop_top() {
+template<typename T>
+T PriorQueue<T>::pop_top() {
     T ret = data[0];
     data[0] = data.pop();
     size = data.get_size();
-    bubble_down(0);
+    sieve_down(0);
 }
 
-template<typename T, bool (*cmp)(T, T)>
-bool PriorQueue<T, &cmp>::not_empty() {
+template<typename T>
+bool PriorQueue<T>::not_empty() {
     return size;
 }
 
-template<typename T, bool (*cmp)(T, T)>
-T PriorQueue<T, cmp>::get_item(size_t idx) {
+template<typename T>
+T PriorQueue<T>::get_item(size_t idx) {
     return data[idx];
 }
 
-template<typename T, bool (*cmp)(T, T)>
-void PriorQueue<T, cmp>::change_item(size_t idx, T value) {
+template<typename T>
+void PriorQueue<T>::change_item(size_t idx, T value) {
     T prev_value = data[idx];
     data[idx] = value;
     if(cmp(value, prev_value)){
-        bubble_up(idx);
+        sieve_up(idx);
     }
     else{
-        bubble_down(idx);
+        sieve_down(idx);
     }
 }
 
-template<typename T, bool (*cmp)(T, T)>
-void PriorQueue<T, &cmp>::bubble_up(size_t idx) {
+template<typename T>
+void PriorQueue<T>::sieve_up(size_t idx) {
     while(idx){//пока не в корне
         size_t parent_idx = (idx - 1) >> 1;
-        if (cmp(data[parent_idx], data[idx])) return;//проверка на упорядоченность
+        if (data[parent_idx] > data[idx]) return;//проверка на упорядоченность
         std::swap(data[parent_idx], data[idx]);
         idx = parent_idx;
     }
 }
 
-template<typename T, bool (*cmp)(T, T)>
-void PriorQueue<T, &cmp>::bubble_down(size_t idx) {
+template<typename T>
+void PriorQueue<T>::sieve_down(size_t idx) {
     size_t dot2 = (idx << 1) + 2;
     size_t better_child;
     while(dot2 < size){//пока обе дочерних вершины существуют
-        better_child = dot2 - cmp(data[dot2 - 1], data[dot2]);
-        if (cmp(data[idx], data[better_child])) break;
-        std::swap(cmp(data[idx], data[better_child]);
+        better_child = dot2 - (data[dot2 - 1] > data[dot2]);
+        if (data[idx] > data[better_child]) break;
+        std::swap(data[idx], data[better_child]);
         idx = better_child;
         dot2 = (idx << 1) + 2;
     }
 
-    size_t dot1 = (idx << 1) + 1;
-    if(dot1 < size && cmp(data[dot1], data[idx])){//проверка на случай существования только 1 ребёнка
-        std::swap(cmp(data[dot1], data[idx])
+    size_t dot1 = dot2 - 1;
+    if(dot1 < size && data[dot1] > data[idx]){//проверка на случай существования только 1 ребёнка
+        std::swap(data[dot1], data[idx]);
     }
 }

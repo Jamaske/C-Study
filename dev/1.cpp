@@ -14,6 +14,8 @@ bool comparator(int a, int b){
     return a < b;
 }
 
+
+
 void wrapper(int first, int second, bool(*cmp)(int, int)){
     std::cout << cmp(first, second);
 }

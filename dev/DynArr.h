@@ -17,7 +17,6 @@ public:
     DynArr(DynArr&& src) noexcept ;
     ~DynArr();
 
-
     DynArr<T>& operator=(DynArr const&  Rvalue);
     DynArr<T>& operator=(DynArr&& Lvalue) noexcept ;
 

@@ -2,36 +2,37 @@
 #include "algorithm"
 
 
+template<typename T>//user constructor
+DynArr<T>::DynArr():
+    DynArr(base_allocation) {}
+
 template<typename T>//basic constructor
 DynArr<T>::DynArr(size_t allocation):
-        allocation(allocation), size(0){
+    allocation(allocation), size(0){
     storage = new T[allocation] {0};
 }
-
-template<typename T>//user constructor
-DynArr<T>::DynArr(): DynArr(base_allocation) {}
-
-template<typename T>//careful copy constructor
-DynArr<T>::DynArr(DynArr &src): DynArr(src.allocation){
-    std::memcpy(storage, src.storage, allocation * sizeof(T));
-    size = src.size;
-}
-
-template<typename T>//destructive copy constructor
-DynArr<T>::DynArr(DynArr &&src) noexcept:
-        size(0), allocation(0), storage(nullptr){
-    std::swap(src.size, size);
-    std::swap(src.allocation, allocation);
-    std::swap(src.storage, storage);
-}
-
 
 template<typename T>
 DynArr<T>::~DynArr() {
     delete[] storage;
 }
 
-template<typename T>
+template<typename T>//copy constructor
+DynArr<T>::DynArr(DynArr &src):
+    DynArr(src.allocation){
+    std::memcpy(storage, src.storage, allocation * sizeof(T));
+    size = src.size;
+}
+
+template<typename T>//move constructor
+DynArr<T>::DynArr(DynArr &&src) noexcept:
+    size(0), allocation(0), storage(nullptr){
+    std::swap(src.size, size);
+    std::swap(src.allocation, allocation);
+    std::swap(src.storage, storage);
+}
+
+template<typename T>//copy assigment
 DynArr<T>& DynArr<T>::operator=(DynArr const& Rvalue) {
     if(this != &Rvalue) {
         if (allocation != Rvalue.allocation) {
@@ -44,11 +45,13 @@ DynArr<T>& DynArr<T>::operator=(DynArr const& Rvalue) {
     return *this;
 }
 
-template<typename T>
+template<typename T>//move assigment
 DynArr<T>& DynArr<T>::operator=(DynArr&& Lvalue) noexcept {
-    std::swap(Lvalue.storage, storage);
-    std::swap(Lvalue.allocation, allocation);
-    std::swap(Lvalue.size, size);
+    if(this != &&Lvalue) {
+        std::swap(Lvalue.storage, storage);
+        std::swap(Lvalue.allocation, allocation);
+        std::swap(Lvalue.size, size);
+    }
     return *this;
 }
 
