@@ -1,4 +1,5 @@
 #include <iostream>
+#include <winsock.h>
 typedef unsigned int ui;
 
 class A{

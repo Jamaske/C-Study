@@ -17,8 +17,7 @@ struct node_dist_holder{
 
 
 int main(){
-    DynArr<node_dist_holdery> a()
-    //PriorQueue<node_dist_holder> queue;
+    DynArr<node_dist_holder> a(4);    //PriorQueue<node_dist_holder> queue;
 
 
 

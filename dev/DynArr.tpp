@@ -7,8 +7,11 @@ DynArr<T>::DynArr():
     DynArr(base_allocation) {}
 
 template<typename T>//basic constructor
-DynArr<T>::DynArr(size_t allocation):
-    allocation(allocation), size(0){
+DynArr<T>::DynArr(size_t allocation)
+    //:allocation(allocation), size(0)
+{
+    this->size = 0;
+    this->allocation = allocation;
     storage = new T[allocation] {0};
 }
 
@@ -47,7 +50,7 @@ DynArr<T>& DynArr<T>::operator=(DynArr const& Rvalue) {
 
 template<typename T>//move assigment
 DynArr<T>& DynArr<T>::operator=(DynArr&& Lvalue) noexcept {
-    if(this != &&Lvalue) {
+    if(this != &Lvalue) {
         std::swap(Lvalue.storage, storage);
         std::swap(Lvalue.allocation, allocation);
         std::swap(Lvalue.size, size);
