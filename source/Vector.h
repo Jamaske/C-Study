@@ -1,27 +1,21 @@
-//
-// Created by Egor on 16.03.2023.
-//
-
-#ifndef CLASS_VECTOR_VECTOR_H
-#define CLASS_VECTOR_VECTOR_H
+#pragma once
 
 
-
-
+template<typename T>
 class Vector {
     friend class Segment;
 protected:
-    double x;
-    double y;
-    double z;
+    T x;
+    T y;
+    T z;
 
 public:
+    Vector(T x, T y, T z);
     Vector();
-
-    Vector(double x, double y, double z);
-
-    Vector GetCopy();
-    Vector Change(double x, double y, double z);
+    ~Vector();
+    Vector(const Vector<T> &src);
+    Vector<T> operator=(Vector<T> &src);
+    T Len2();
     double Len();
     Vector operator+(Vector other);
     double operator*(Vector& other);
@@ -43,4 +37,4 @@ public:
 
 };
 
-#endif //CLASS_VECTOR_VECTOR_H
+#include"Vector.tpp"

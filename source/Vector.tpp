@@ -1,38 +1,45 @@
-#include "Vector.h"
 #include <cmath>
 #include <iostream>
-Vector::Vector() {
-    Vector::x=0;
-    Vector::y=0;
-    Vector::z=0;
-}
+#include "Vector.h"
 
-Vector::Vector(double x, double y, double z) {
-    Vector::x=x;
-    Vector::y=y;
-    Vector::z=z;
-}
-
-Vector Vector::Change(double x, double y, double z) {
-    Vector::x = x;
-    Vector::y = y;
-    Vector::z = z;
-}
-
-Vector Vector::GetCopy() {
-    Vector temp;
-    temp.x = Vector::x;
-    temp.y = Vector::y;
-    temp.z = Vector::z;
-    return temp;
+template<typename T>
+Vector<T>::Vector(T x, T y, T z):
+        x(x), y(y), z(z){
 
 }
 
-double Vector::Len() {
+template<typename T>
+Vector<T>::Vector():
+    Vector(0,0,0){
 
-    return sqrt(Vector::x*Vector::x+Vector::y*Vector::y+Vector::z*Vector::z);
 }
 
+template<typename T>
+Vector<T>::~Vector()= default;
+
+template<typename T>
+Vector<T>::Vector(const Vector<T> &src):
+    x(src.x), y(src.y), z(src.z){
+
+}
+
+template<typename T>
+Vector<T> Vector<T>::operator= (Vector<T> &src) {
+    x = src.x;
+    y = src.y;
+    z = src.z;
+}
+
+template<typename T>
+T Vector<T>::Len2() {
+    return Vector::x*Vector::x+Vector::y*Vector::y+Vector::z*Vector::z;
+}
+
+template<typename T>
+double Vector<T>::Len() {
+}
+
+template<typename T>
 Vector Vector::operator+(Vector other) {
     Vector temp;
     temp.x=Vector::x+other.x;
@@ -41,11 +48,13 @@ Vector Vector::operator+(Vector other) {
     return temp;
 }
 
+template<typename T>
 double Vector::operator*(Vector &other) {//dot product
     return Vector::x * other.x + Vector::y * other.y + Vector::z * other.z;
 }
 
 
+template<typename T>
 Vector Vector::operator^( Vector &other) {//cross product
     Vector temp;
     temp.x = Vector::y * other.z - Vector::z * other.y;
@@ -54,6 +63,7 @@ Vector Vector::operator^( Vector &other) {//cross product
     return temp;
 }
 
+template<typename T>
 Vector Vector::operator*( double t) {
     Vector temp;
     temp.x=Vector::x * t;
@@ -62,24 +72,30 @@ Vector Vector::operator*( double t) {
     return temp;
 }
 
+template<typename T>
 void Vector::PrintVector() {
     std::cout << "("<<Vector::x <<"; "<< Vector::y<<"; "<< Vector::z<<' ' <<')'<< std::endl;
 }
 
+
+template<typename T>
 Segment::Segment() {
     Segment::start=Vector();
     Segment::end=Vector();
 }
 
+template<typename T>
 Segment::Segment(Vector start,Vector end) {
     Segment::start=start;
     Segment::end=end;
 }
 
+template<typename T>
 double Segment::Len() {
     return (end + (start * -1.f)).Len() ;
 }
 
+template<typename T>
 bool Segment::IsBelong(Vector t) {
     const double eps = 0.995;
     Vector a = t + start * -1;
@@ -88,6 +104,7 @@ bool Segment::IsBelong(Vector t) {
     return a * b > len_prod * eps;
 }
 
+template<typename T>
 void Segment::PrintSegment() {
     std::cout << "start: ";
     start.PrintVector();
