@@ -2,5 +2,6 @@
 #include"../source/Vector.h"
 
 int main(){
-    Vector
+    double a= 0.1, b= 0.2;
+    std::cout << a||t;
 }
