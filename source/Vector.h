@@ -41,9 +41,10 @@ public:
     Line(const Plane<T>& a, const Plane<T>& b);
     Line(const Line<T>& src);
     ~Line();
-    Line<T>& operator=(const Linr<T>& src);
+    Line<T>& operator=(const Line<T>& src);
 
-    bool IsBelong(const Vectoe<T> some_point);
+    bool IsBelong(const Vector<T>& some_point);
+    bool IsParallel(const Vector<T>& other_Line);
 
 
 };
@@ -96,4 +97,6 @@ public:
     bool Intersection(const Plane<T>& other_plane, Vector<T>& intersection = Vector<T>(), T& dist = 0);
 
 };
+
+
 #include"Vector.tpp"

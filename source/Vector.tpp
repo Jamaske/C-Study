@@ -223,12 +223,3 @@ bool Plane<T>::Intersection(const Plane<T> &other_plane, Vector<T> &intersection
     return !dist;
 }
 
-
-
-
-
-
-
-
-
-
