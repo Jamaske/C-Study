@@ -58,6 +58,7 @@ public:
     Vector<T> norm;// (A,B,C)
     T offset;// D
 
+
 public:
     Plane(Vector<T> normal, T offset);
     Plane(Vector<T> normal, Vector<T> any_point);

@@ -211,7 +211,7 @@ bool Plane<T>::Dist_to_Point(const Vector<T> &some_point, T &dist) {
 
 template<typename T>
 bool Plane<T>::IsParallel(const Plane<T> &other_plane) {
-    return !(norm ^ other_plane.norm);
+    return (norm ^ other_plane.norm).Len2() == 0;
 }
 
 template<typename T>
