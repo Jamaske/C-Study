@@ -30,6 +30,26 @@ template<typename T>
 T triple_prod(const Vector<T>& a, const Vector<T>& b, const Vector<T>& c);
 
 template<typename T>
+class Line {
+
+public:
+    Vector<T> base;
+    Vector<T> dir;
+
+public:
+    Line(const Vector<T>& base, const Vector<T>& dir);
+    Line(const Plane<T>& a, const Plane<T>& b);
+    Line(const Line<T>& src);
+    ~Line();
+    Line<T>& operator=(const Linr<T>& src);
+
+    bool IsBelong(const Vectoe<T> some_point);
+
+
+};
+
+
+template<typename T>
 class Segment {
 public:
     Vector<T> p0;
