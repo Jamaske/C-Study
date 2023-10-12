@@ -3,4 +3,4 @@ project(C++)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(C++ dev/2.cpp)
+add_executable(C++ dev/1.cpp dev/Truth_table_solver.cpp dev/Truth_table_solver.h)

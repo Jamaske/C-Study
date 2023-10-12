@@ -3,6 +3,9 @@
 
 
 #include <chrono>
+
+#define bunch_start 9999999999999999 - 1000000
+#define bunch_end 9999999999999999
 using namespace std::chrono;
 
 uint64_t bin_to_bcd(uint64_t bin, const uint8_t first_1_idx = 53){
@@ -34,7 +37,6 @@ uint64_t bin_to_bcd(uint64_t bin, const uint8_t first_1_idx = 53){
     }
     return bin;
 }
-
 char* bcd_to_charr(uint64_t bcd, uint8_t charr_len = 16){
     char* charr = new char[charr_len];
     uint8_t bit;
@@ -56,9 +58,8 @@ char* bcd_to_charr(uint64_t bcd, uint8_t charr_len = 16){
     }
     return charr;
 }
-
-void hend_maid(){
-    for (uint64_t a = 9999999999999999; a > 9999999999999999 - 1000000; --a) {
+void bitwisemagic(){
+    for (uint64_t a = bunch_start; a < bunch_end; ++a) {
         //std::cout << a << std::endl;
         //std::cout << std::bitset<64>(a) << std::endl;
         uint64_t b = bin_to_bcd(a);
@@ -95,44 +96,83 @@ const char DigitOnes[] = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 } ;
 
- std::string* getChars(uint64_t i) {
+
+std::string* getChars(uint64_t i) {
      char buf[16];
      uint64_t q, r;
      int charPos = 16;
 
      // Generate two digits per iteration
-     while (i >= 100) {
-         q = i / 100;
-         r = i - (q * 100);
-         i = q;
+     while (i >= 10) {
+         q = i;
+         i /= 100;
+         r = q - (i * 100);
          buf[--charPos] = DigitOnes[r];
          buf[--charPos] = DigitTens[r];
      }
 
-     // We know there are at most two digits left at this point.
-     buf[--charPos] = DigitOnes[i];
-     if (i > 9) {
-         buf[--charPos] = DigitTens[i];
+     if (i) {
+         buf[--charPos] = DigitOnes[i];
      }
 
 
      return new std::string(buf);
- }
-void premaid(){
-    for (uint64_t a = 9999999999999999; a > 9999999999999999 - 1000000; --a) {
+}
+void divby100(){
+    for (uint64_t a = bunch_start; a < bunch_end; ++a) {
         std::string str = *getChars(a);
     }
 }
 
+std::string* plain(uint64_t i) {
+    char buf[16];
+    uint64_t q, r;
+    int charPos = 16;
+
+    // Generate two digits per iteration
+    while (i) {
+        q = i;
+        i /= 10;
+        r = q - (i * 10);
+
+        buf[--charPos] = (char)(r + 48);
+    }
+
+    // We know there are at most two digits left at this point.
+    return new std::string(buf);
+}
+
+
+
+void divby10(){
+    for (uint64_t a = bunch_start; a < bunch_end; ++a) {
+        std::string str = *plain(a);
+    }
+}
+
+void mult10(){
+    for (uint64_t a = bunch_start; a < bunch_end; ++a) {
+        std::string str = *plain(a);
+    }
+}
 
 int main(){//9999999999999999
-
+    std::cout   << "testing speed of algorithms:\nstrait forward div by 10\njava div by 100 with clever lookup tables\nmy bit wise magic double dabble software implementation\n"
+                << "testing is done in 100 bunches of 1000000 func calls\nand timed in milliseconds for bunch or nanosecond on 1 call on average\n";
+    std::cin;
     for(uint64_t i = 0; i < 100; i++) {
         auto start = high_resolution_clock::now();
-        premaid();
-        auto stop = high_resolution_clock::now();
-        auto duration = (duration_cast<milliseconds>(stop - start));//nanoseconds on 1 call
-        std::cout << "million=" << i << "\tduration: " << duration.count() << std::endl;
+        divby10();
+        auto mid1 = high_resolution_clock::now();
+        divby100();
+        auto mid2 = high_resolution_clock::now();
+        bitwisemagic();
+        auto end = high_resolution_clock::now();
+
+        auto first_time = (duration_cast<milliseconds>(mid1 - start));
+        auto second_time = (duration_cast<milliseconds>(mid2 - mid1));//nanoseconds on 1 call
+        auto therd_time = (duration_cast<milliseconds>(end - mid2));
+        std::cout << "million=" << i << "\t div10: " << first_time.count() << "\t div100: " << second_time.count() << "\t bitwise: " << therd_time.count()  << std::endl;
 
     }
 
