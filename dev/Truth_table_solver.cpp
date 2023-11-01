@@ -14,8 +14,13 @@ typedef std::uint16_t us;
 typedef std::uint64_t ul;
 constexpr int n = 4;
 constexpr int s = (1 << n);
+constexpr T negate = 0b1111'1111'1111'1111;
 
-
+static ul nand_calls = 0;
+inline T nand (T a, T b){
+    ++nand_calls;
+    return negate ^ (a & b);
+}
 bool validate_solution(std::vector<T>& solution, bool verbose){
     ul validate, i, j;
     T a, b, res, req;
@@ -26,9 +31,9 @@ bool validate_solution(std::vector<T>& solution, bool verbose){
             a = solution[i];
             for(j = i; j < validate; ++j){
                 b = solution[j];
-                res = ~ (a & b);
+                res = nand(a, b);
                 if(res == req){
-                    if(verbose) std::cout << a << '\n' << b << '\n' << res << '\n' << req << "\n\n";
+                    if(verbose) std::cout << std::bitset<sizeof(T) * 8>(a)<< '\n' << std::bitset<sizeof(T) * 8>(b) << '\n' << std::bitset<sizeof(T) * 8>(res) << "\n\n";
                     goto next_iter;
                 }
             }
@@ -126,20 +131,8 @@ struct vector_map
         }
     }
 };
-inline T nand (T a, T b){
-    return ~(a & b);
-}
-struct operation{
-    T a;
-    T b;
-    T product;
-    operation(T a, T b, T& res):
-    a(a), b(b)
-    {
-        product = res = nand(a,b);
-    }
-};
 
+//7 segment signals
 static std::unordered_set<T> requests = {
         0b1011011111101011,
         0b1111100111100100,
@@ -151,7 +144,13 @@ static std::unordered_set<T> requests = {
 
 };
 
-
+/*
+//equal
+static std::unordered_set<T> requests = {
+        0b0000'0000'0000'0110,
+        0b0000'0000'0000'0001,
+};
+*/
 //initializing all data storage
 struct solution{
     static std::unordered_map<T, std::vector<T>> partial_solutions;
@@ -191,42 +190,14 @@ static vector_set stack;
 static ul k0, k1, k2;
 //main recursion function
 template<int depth>
-void combine(){
+void combine(ul i, ul j){
     T product;
-    ul i, j;
-    for (i = 0; i < depth + n; ++i){
-        for(j = i; j < depth + n; ++j){
+
+    if((++j > i) && (j = 0, ++i > depth + n)) return;
+    do{
+        do{
             product = nand(stack[i], stack[j]);
             if(stack.contains(product)) continue;
-            stack.add(product);
-            if(requests.contains(product)){
-                solution::update_partial_solution(product, stack);
-                //check if this is new full solution
-                for(const T& el : requests){
-                    if(!stack.contains(el)){
-                        //early comparison exit
-                        goto exit;
-                    }
-                }
-                //keep the shortest full solution
-                solution::update_full_solution(stack);
-            }
-            exit:
-            combine<depth + 1>();
-            stack.pop();
-        }
-    }
-}
-
-template<>
-void combine<MAX_DEPTH>(){
-    T product;
-    ul i, j;
-    for (i = 0; i < stack.size(); ++i){
-        for(j = i; j < stack.size(); ++j){
-            product = nand(stack[i], stack[j]);
-            if(stack.contains(product)) continue;
-
             stack.add(product);
 
             if(requests.contains(product)){
@@ -240,24 +211,55 @@ void combine<MAX_DEPTH>(){
                 }
                 //keep the shortest full solution
                 solution::update_full_solution(stack);
+            }exit:
 
-            }
-            exit:
+            combine<depth + 1>(i,j);
             stack.pop();
-        }
-    }
+        }while(++j <= i);
+    }while(j = 0, ++i < depth + n);
 }
 
 template<>
-void combine<2>(){
+void combine<MAX_DEPTH>(ul i, ul j){
     T product;
-    ul i, j;
+
+    if((++j > i) && (j = 0, ++i > MAX_DEPTH + n)) return;
+    do{
+        do{
+            product = nand(stack[i], stack[j]);
+            if(stack.contains(product)) continue;
+            stack.add(product);
+
+            if(requests.contains(product)){
+                solution::update_partial_solution(product, stack);
+                //check if this is new full solution
+                for(const T& el : requests){
+                    if(!stack.contains(el)){
+                        //early comparison exit
+                        goto exit;
+                    }
+                }
+                //keep the shortest full solution
+                solution::update_full_solution(stack);
+
+            }exit:
+
+            stack.pop();
+        }while(++j <= i);
+    }while(j = 0, ++i < MAX_DEPTH + n);
+}
+
+template<>
+void combine<2>(ul i, ul j){
+    T product;
     k2 = 0;
-    for (i = 0; i < stack.size(); ++i){
-        for(j = i; j < stack.size(); ++j){
+
+    if((++j > i) && (j = 0, ++i > 2 + n)) return;
+    do{
+        do{
             product = nand(stack[i], stack[j]);
             if(stack.contains(product)) continue;
-            //std::cout<< k0 << ' ' << k1 << ' ' << ++k2 <<std::endl;
+            std::cout<< k0 << ' ' << k1 << ' ' << ++k2 << " cals: " << nand_calls <<std::endl;
             stack.add(product);
 
             if(requests.contains(product)){
@@ -271,21 +273,22 @@ void combine<2>(){
                 }
                 //keep the shortest full solution
                 solution::update_full_solution(stack);
-            }
-            exit:
-            combine<3>();
+            }exit:
+
+            combine<3>(i, j);
             stack.pop();
-        }
-    }
+        }while(++j <= i);
+    }while(j = 0, ++i < 2 + n);
 }
 
 template<>
-void combine<1>(){
+void combine<1>(ul i, ul j){
     T product;
-    ul i, j;
     k1 = 0;
-    for (i = 0; i < stack.size(); ++i){
-        for(j = i; j < stack.size(); ++j){
+
+    if((++j > i) && (j = 0, ++i > 1 + n)) return;
+    do{
+        do{
             product = nand(stack[i], stack[j]);
             if(stack.contains(product)) continue;
             ++k1;
@@ -303,21 +306,21 @@ void combine<1>(){
                 }
                 //keep the shortest full solution
                 solution::update_full_solution(stack);
-            }
-            exit:
-            combine<2>();
+            }exit:
+
+            combine<2>(i, j);
             stack.pop();
-        }
-    }
+        }while(++j <= i);
+    }while(j = 0, ++i < 1 + n);
 }
 
 template<>
-void combine<0>(){
+void combine<0>(ul i, ul j){
     T product;
-    ul i, j;
     k0 = 0;
-    for (i = 0; i < stack.size(); ++i){
-        for(j = i; j < stack.size(); ++j){
+
+    do{
+        do{
             product = nand(stack[i], stack[j]);
             if(stack.contains(product)) continue;
             ++k0;
@@ -336,12 +339,12 @@ void combine<0>(){
                 //keep the shortest full solution
                 solution::update_full_solution(stack);
 
-            }
-            exit:
-            combine<1>();
+            }exit:
+
+            combine<1>(i, j);
             stack.pop();
-        }
-    }
+        }while(++j <= i);
+    }while(j = 0, ++i < n);
 }
 
 int main(){
@@ -349,7 +352,7 @@ int main(){
     {//initialization of a stack
         us i = s;
         T a = -1;
-        vector_set tmp;
+        //vector_set tmp;
         while (i >>= 1){
             a ^= (a << i);
             stack.add(a);
@@ -361,21 +364,22 @@ int main(){
     solution::initialize();
     std::cout << "Recursion depth:" << MAX_DEPTH << '\n';
 
-    combine<0>();
+    combine<0>(0,0);
 
-    validate_solution(solution::full_solution, true);
     std::cout << "============FULL==RESULTS============" << '\n';
     for(auto i:solution::full_solution){
-        std::cout << i << '\n';
+        std::cout << std::bitset<sizeof(T) * 8>(i) << '\n';
     }
+    validate_solution(solution::full_solution, true);
 
     std::cout << "============PARTIAL==RESULTS============" << '\n';
     for(T i : requests){
-        validate_solution(solution::partial_solutions[i], true);
         std::cout << "for signal: " << i << '\n';
         for(T j: solution::partial_solutions[i]){
-            std::cout << j <<'\n';
+            std::cout << std::bitset<sizeof(T) * 8>(j) <<'\n';
         }
+        validate_solution(solution::partial_solutions[i], true);
 
     }
+    std::cout << "total nand cals: " << nand_calls << '\n';
 }
