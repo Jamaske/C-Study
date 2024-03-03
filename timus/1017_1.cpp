@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <stdint.h>
 typedef uint64_t ui;
 #define debug false
 

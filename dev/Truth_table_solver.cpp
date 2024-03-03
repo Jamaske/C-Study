@@ -9,7 +9,7 @@
 
 #define T  us
 
-#define MAX_DEPTH 7
+#define MAX_DEPTH 10
 typedef std::uint16_t us;
 typedef std::uint64_t ul;
 constexpr int n = 4;
@@ -381,5 +381,7 @@ int main(){
         validate_solution(solution::partial_solutions[i], true);
 
     }
-    std::cout << "total nand cals: " << nand_calls << '\n';
+    std::cout << "total nand cals: " << nand_calls << '\n' << "PRESS ENTER TO EXIT\n" ;
+    char a;
+    std::cin >> a;
 }

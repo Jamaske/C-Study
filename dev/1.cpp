@@ -1,8 +1,8 @@
 #include <iostream>
-#include <vector>
-#include <cstdint>
-
 
 int main(){
-    std::vector<std::uint16_t>
+    char dymmy;
+    std::cout << "Fucking compiler";
+    std::cin >> dymmy;
+    return 0;
 }
