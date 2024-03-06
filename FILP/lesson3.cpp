@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <windows.h>
-#include <stdio.h>
-#include <tchar.h>
+
 #include <map>
 #include <vector>
 #include <algorithm>
 #include <cstdint>
+#include <tchar.h>
 #define BUFFER_SIZE 1024
 using namespace std;
 
