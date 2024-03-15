@@ -58,7 +58,9 @@
         "set": "cpp",
         "list": "cpp",
         "fstream": "cpp",
-        "*.tpp": "cpp"
+        "*.tpp": "cpp",
+        "span": "cpp"
     },
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "C_Cpp.errorSquiggles": "disabled"
 }
