@@ -121,13 +121,13 @@ int main() {
 
     //printf("%d\n", 1 >> 1);
     ort.print();
-    ort.rotate(0b1000);
+    ort.rotate(0b1001);
     ort.print();
-    ort.rotate(0b1000);
+    ort.rotate(0b1001);
     ort.print();
-    ort.rotate(0b1000);
+    ort.rotate(0b1001);
     ort.print();
-    ort.rotate(0b1000);
+    ort.rotate(0b1001);
     ort.print();
     return 0;
 }
