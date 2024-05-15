@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdint>
-
+// -O0 -std=c++23
 int f(int arg) {
     char buf[16];
     buf[40] -= 0x31;// магические 
