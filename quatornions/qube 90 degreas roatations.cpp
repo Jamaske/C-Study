@@ -15,15 +15,15 @@ union orientation {
     unsigned char byte;
 
     orientation() :byte(0b00000010) {} //reverse bit order coution
-    orientation(const orientation* src) :byte(src->byte) {}
+    orientation(const orientation& src) :byte(src.byte) {}
 
     void print() {
         printf("(1/2)^(%d)*(sqrt2)^(%d)*(%d + %di + %dj + %dk)\n\n", (bool)v, k, w, x, y, z);
     }
-
+    // 
     void rotate(char rotor) {
         char w, x, y, z;
-        orientation copy(this);
+        orientation copy(&this);
 
         switch (rotor | (++copy.k && (bool)copy.v) << 4) {
         case 0b1000: //+X
