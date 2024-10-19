@@ -37,18 +37,19 @@ void File::open(const char* name, Mode mode) {
     case Mode::write:
         creation = CREATE_ALWAYS;
         access |= GENERIC_WRITE;
+        break;
     case Mode::append:
         creation = OPEN_ALWAYS;
         access |= GENERIC_WRITE;
     }
-    fileHandle = CreateFileA(name, access, share, nullptr, creation, flags, nullptr);
-    if (fileHandle == INVALID_HANDLE_VALUE) throw std::runtime_error("Failed to open file");
+    fileHandle = (intptr_t)CreateFileA(name, access, share, nullptr, creation, flags, nullptr);
+    if (fileHandle == (intptr_t)INVALID_HANDLE_VALUE) throw std::runtime_error("Failed to open file");
     isOpen = true;
 }
 
 void File::close() {
     if (isOpen) {
-        CloseHandle(fileHandle);
+        CloseHandle((void*)fileHandle);
         isOpen = false;
     }
     if (buffer_size) {
@@ -57,11 +58,11 @@ void File::close() {
     }
 }
 
-#include <iostream>
+
 size_t File::write(const char* buffer, size_t length) {
     if (!isOpen) throw std::runtime_error("File not open");
     DWORD writen;
-    WriteFile(fileHandle, buffer, length, &writen, nullptr);
+    WriteFile((void*)fileHandle, buffer, length, &writen, nullptr);
     return writen;
 }
 
@@ -69,12 +70,14 @@ size_t File::read(const char*& data, size_t size) {
     if (!isOpen) throw std::runtime_error("File not open");
     get_buffer(size + 1);
     DWORD bytes_read;
-    ReadFile(fileHandle, read_buffer, size, &bytes_read, nullptr);
+    ReadFile((void*)fileHandle, read_buffer, size, &bytes_read, nullptr);
     read_buffer[bytes_read] = '\0';
     data = read_buffer;
     return static_cast<size_t>(bytes_read);
 }
+
 #elif __linux__
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -123,6 +126,5 @@ size_t File::read(const char*& data, size_t size) {
     data = read_buffer;
     return byte_read;
 }
-
 #endif
 
