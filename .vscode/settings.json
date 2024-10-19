@@ -63,7 +63,9 @@
         "charconv": "cpp",
         "ratio": "cpp",
         "format": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "text_encoding": "cpp",
+        "typeindex": "cpp"
     },
     "cmake.configureOnOpen": true,
     "C_Cpp.errorSquiggles": "disabled"

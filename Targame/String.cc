@@ -27,10 +27,12 @@ inline String::String(size_t capacity, size_t length, const char* buffer) :
 //Basic constructors
 //create
 String::String() :
-    String(DEFAULT_CAPACITY, 0) {}
+    String(DEFAULT_CAPACITY, 0) {
+}
 
 String::String(size_t size) :
-    String(pow2_capacity_calc(size), 0) {}
+    String(pow2_capacity_calc(size), 0) {
+}
 
 String::~String() {
     free(buffer);
@@ -38,10 +40,12 @@ String::~String() {
 
 //Copy
 String::String(const String& reference) :
-    String(reference.capacity, reference.length, (const char*)reference) {}
+    String(reference.capacity, reference.length, (const char*)reference) {
+}
 
 String::String(const char* c_str) :
-    String(pow2_capacity_calc(strlen(c_str)), strlen(c_str), c_str) {}
+    String(pow2_capacity_calc(strlen(c_str)), strlen(c_str), c_str) {
+}
 
 String& String::operator = (const String& reference) {
     size_t req_capacity = pow2_capacity_calc(reference.length);
@@ -146,7 +150,7 @@ bool String::operator < (const String& other) const {
 };
 
 //resize
-inline void String::enshure(size_t size) {
+inline void String::ensure(size_t size) {
     if (capacity - 1 < size) {
         capacity = pow2_capacity_calc(size);
         buffer = reinterpret_cast<char*>(realloc(buffer, capacity));
@@ -162,7 +166,7 @@ inline void String::empty() {
 }
 
 inline void String::expand(size_t size) {
-    enshure(length + size);
+    ensure(length + size);
 }
 
 //streams
@@ -210,13 +214,13 @@ String& String::log() const {
     String& log = *new String("String{");
     char int_buff[20];
 
-    sprintf(int_buff, "%p", this);
+    sprintf(int_buff, "%p", (void*)this);
     (log += "ptr:") += int_buff;
-    sprintf(int_buff, "%u", length);
+    sprintf(int_buff, "%llu", length);
     (log += ", length:") += int_buff;
-    sprintf(int_buff, "%u", capacity);
+    sprintf(int_buff, "%llu", capacity);
     (log += ", capacity:") += int_buff;
-    sprintf(int_buff, "%p", buffer);
+    sprintf(int_buff, "%p", (void*)buffer);
     (log += ", buffer:") += int_buff;
     sprintf(int_buff, "%u", *(buffer + length) == '\0');
     (log += ", zero terminator?:") += int_buff;

@@ -25,7 +25,7 @@ public:
 
     //copy
     String(const String& reference);
-    String(char const* c_str);
+    String(const char* c_str);
     String& operator = (const String& reference);
 
     //move
@@ -56,7 +56,7 @@ public:
     inline operator bool() const { return length; }
     //resize
     void expand(size_t size);
-    void enshure(size_t size);
+    void ensure(size_t size);
     //streams
     void empty();
     friend std::ostream& operator << (std::ostream& right_stream, const String& string);

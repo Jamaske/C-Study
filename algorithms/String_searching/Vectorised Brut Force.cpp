@@ -11,7 +11,6 @@ public:
     vector <int> search(string pat, string txt)
     {
         vector<int> mathes;
-
         for (int i = 0; i < txt.size() - pat.size(); ++i) {
             int j = 0;
             for (; j < (long long)pat.size() - 7; j += 8) {
@@ -40,10 +39,11 @@ public:
                     goto missmath;
                 }
             }
-
-            mathes.push_back(i + 1);
+            // get a full match
+            mathes.push_back(i);
         missmath:
-            {}
+            {
+            }
         }
         return mathes;
     }
