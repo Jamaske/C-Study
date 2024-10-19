@@ -5,7 +5,7 @@
 #include "../file works/File.h"
 
 int main() {
-    File file("data", File::Mode::write);
+    File file("data.bin", File::Mode::write);
 
     const int N = 1024; //* 1024 * 256;
     static uint16_t ints_arr[N];

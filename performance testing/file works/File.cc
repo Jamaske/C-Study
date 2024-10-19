@@ -76,7 +76,15 @@ size_t File::read(const char*& data, size_t size) {
     data = read_buffer;
     return static_cast<size_t>(bytes_read);
 }
-
+#elif __linux__
+#include "File.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+void File::opne(const char* name, Mode mode) {
+    int flag = 0;
+}
 
 
 #endif
