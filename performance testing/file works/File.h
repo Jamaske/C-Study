@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdexcept>
+#include <stdint.h>
 
 class File {
 public:
@@ -29,7 +30,7 @@ public:
 private:
     void get_buffer(size_t size);
     void open(const char* filename, Mode mode);
-    void* fileHandle; // Internal file handle (platform-specific)
+    intptr_t fileHandle; // Internal file handle (platform-specific)
     char* read_buffer;
     size_t buffer_size;
     bool isOpen;

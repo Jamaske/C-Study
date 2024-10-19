@@ -13,6 +13,6 @@ int main() {
         ints_arr[i] = (short)rand();
     }
     size_t writen = file.write(reinterpret_cast<char*>(&ints_arr), N * sizeof(uint16_t));
-    while (true);
+    //while (true);
     std::cout << "Done!!! \t" << writen << " bytes is writen" << std::endl;
 }
