@@ -46,36 +46,37 @@ void File::open(const char* name, Mode mode) {
         access |= GENERIC_WRITE;
     }
     fileHandle = (intptr_t)CreateFileA(name, access, share, nullptr, creation, flags, nullptr);
-    if (fileHandle == (intptr_t)INVALID_HANDLE_VALUE) throw std::runtime_error("Failed to open file");
-    isOpen = true;
+    if (notOpen()) throw std::runtime_error("Failed to open file");
 }
 
 void File::close() {
-    if (isOpen) {
-        CloseHandle((void*)fileHandle);
-        isOpen = false;
-    }
-    if (buffer_size) {
-        free(buffer);
-        buffer_size = 0;
-    }
+    if (notOpen()) CloseHandle((void*)fileHandle);
+    free(buffer);
+    buffer = nullptr;
+}
+
+inline bool File::notOpen() {
+    return fileHandle == (intptr_t)INVALID_HANDLE_VALUE;
 }
 
 
 size_t File::write(const char* buffer, size_t length) {
-    if (!isOpen) throw std::runtime_error("File not open");
+    if (notOpen()) throw std::runtime_error("File not open");
     DWORD writen;
     WriteFile((void*)fileHandle, buffer, length, &writen, nullptr);
     return writen;
 }
 
-size_t File::read(const char*& data, size_t size) {
-    if (!isOpen) throw std::runtime_error("File not open");
-    get_buffer(size + 1);
+size_t File::read(size_t size) {
+    if (notOpen()) throw std::runtime_error("File not open");
+    if (!size) {
+        LARGE_INTEGER winapi_bullshit_long;
+        GetFileSizeEx((void*)fileHandle, &winapi_bullshit_long);
+        size = winapi_bullshit_long.QuadPart;
+    }
+    get_buffer(size);
     DWORD bytes_read;
     ReadFile((void*)fileHandle, buffer, size, &bytes_read, nullptr);
-    buffer[bytes_read] = '\0';
-    data = buffer;
     return static_cast<size_t>(bytes_read);
 }
 

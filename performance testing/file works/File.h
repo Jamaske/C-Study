@@ -31,6 +31,7 @@ public:
     size_t write(const char* data, size_t length);
     size_t read(size_t size = 0);
     void close();
+    bool notOpen();
 
     ///size_t get_file_size();
 
