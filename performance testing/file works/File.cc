@@ -2,18 +2,21 @@
 #include "File.h"
 
 File::File(const char* filename, File::Mode mode) :
-    fileHandle((intptr_t)0), read_buffer(nullptr), buffer_size(0), isOpen(false) {
+    mode(mode), fileHandle((intptr_t)-1), buffer(nullptr), buffer_size(0) {
     open(filename, mode);
+
 }
 
 File::~File() {
     close();
 }
 
-void File::get_buffer(size_t size) {
-    if (buffer_size >= size) return;
-    read_buffer = reinterpret_cast<char*>(malloc(size));
-    if (read_buffer == nullptr) std::bad_alloc();
+inline void File::get_buffer(size_t size) {
+    if (buffer_size == size) return;
+    free(buffer);
+    buffer = reinterpret_cast<char*>(malloc(size + 1));
+    if (buffer == nullptr) std::bad_alloc();
+    buffer[size] = '\0';
     buffer_size = size;
 }
 
@@ -53,7 +56,7 @@ void File::close() {
         isOpen = false;
     }
     if (buffer_size) {
-        free(read_buffer);
+        free(buffer);
         buffer_size = 0;
     }
 }
@@ -70,9 +73,9 @@ size_t File::read(const char*& data, size_t size) {
     if (!isOpen) throw std::runtime_error("File not open");
     get_buffer(size + 1);
     DWORD bytes_read;
-    ReadFile((void*)fileHandle, read_buffer, size, &bytes_read, nullptr);
-    read_buffer[bytes_read] = '\0';
-    data = read_buffer;
+    ReadFile((void*)fileHandle, buffer, size, &bytes_read, nullptr);
+    buffer[bytes_read] = '\0';
+    data = buffer;
     return static_cast<size_t>(bytes_read);
 }
 
@@ -97,34 +100,40 @@ void File::open(const char* name, Mode mode) {
     }
     fileHandle = (intptr_t)::open(name, flag, S_IRUSR | S_IWUSR);
     if (fileHandle == -1) throw std::runtime_error("Failed to open file");
-    isOpen = true;
 }
 
 void File::close() {
-    if (isOpen) {
-        ::close((int)fileHandle);
-        isOpen = false;
-    }
-    if (buffer_size) {
-        free(read_buffer);
-        buffer_size = 0;
-    }
+    if (fileHandle != -1LL) ::close((int)fileHandle);
+    fileHandle = -1LL;
+    free(buffer);
+    buffer = nullptr;
 }
 
+
+/*
+size_t File::get_file_size(){
+    stat sb;
+    if(fstat((int)fileHandle, &sb) == -1)
+
+}
+*/
+
 size_t File::write(const char* data, size_t length) {
-    if (!isOpen) throw std::runtime_error("File not open");
+    if (fileHandle == -1LL) throw std::runtime_error("File not open");
     size_t readen = ::write((int)fileHandle, data, length);
     if (readen == (size_t)-1) std::runtime_error("Failed to write");
     return readen;
 }
 
-size_t File::read(const char*& data, size_t size) {
-    if (!isOpen) throw std::runtime_error("File not open");
-    get_buffer(size + 1);
-    size_t byte_read = ::read(fileHandle, read_buffer, size);
-    read_buffer[byte_read] = '\0';
-    data = read_buffer;
-    return byte_read;
+size_t File::read(size_t size) {
+    if (fileHandle == -1LL) throw std::runtime_error("File not open");
+    if (!size) {
+        struct stat prop;
+        if (fstat((int)fileHandle, &prop) == -1) throw std::runtime_error("Cant access file propertys");
+        size = prop.st_size;
+    }
+    get_buffer(size);
+    return (size_t)::read(fileHandle, buffer, size);
 }
 #endif
 

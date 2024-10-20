@@ -18,22 +18,25 @@ public:
         byte_append,
         */
     };
+private:
+    Mode mode;
+    intptr_t fileHandle; // Internal file handle (platform-specific)
+public:
+    char* buffer;
+    size_t buffer_size;
 
     File(const char* filename, Mode mode);
     ~File();
 
     size_t write(const char* data, size_t length);
-    size_t read(const char*& data, size_t size);
+    size_t read(size_t size = 0);
     void close();
-    inline size_t get_buffer_size() const { return buffer_size; }
+
+    ///size_t get_file_size();
 
 private:
     void get_buffer(size_t size);
     void open(const char* filename, Mode mode);
-    intptr_t fileHandle; // Internal file handle (platform-specific)
-    char* read_buffer;
-    size_t buffer_size;
-    bool isOpen;
 };
 
 #endif // FILE_H
