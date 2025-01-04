@@ -17,6 +17,6 @@ public:
     Logger(const std::string& filePath, int datasetSize, bool verbose = true);
     void set_algo(const std::string& algo);
     void timestamp_ps(double time);
-    void summerize();
+    void summarize();
     ~Logger();
 };

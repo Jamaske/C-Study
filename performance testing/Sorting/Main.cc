@@ -37,7 +37,7 @@ void square_reference(std::vector<int>& data) {
     data[0] = mask;
 }
 
-void bubleSort1(std::vector<int>& data) {
+void bubbleSort1(std::vector<int>& data) {
     uint64_t len = data.size();
     int tmp;
     for (uint64_t i = 0; i < len; ++i) {
@@ -52,7 +52,7 @@ void bubleSort1(std::vector<int>& data) {
 }
 
 
-void bubleSort2(std::vector<int>& data) {
+void bubbleSort2(std::vector<int>& data) {
     uint64_t len = data.size();
     int tmp;
     for (uint64_t i = len - 1; i; --i) {
@@ -67,7 +67,7 @@ void bubleSort2(std::vector<int>& data) {
 }
 
 
-void bubleSort3(std::vector<int>& data) {
+void bubbleSort3(std::vector<int>& data) {
     uint64_t i = data.size(), j;
     int tmp;
     bool unsorted = true;
@@ -179,13 +179,13 @@ int main() {
     executor.run(square_reference, datasets, logger);
 
     logger.set_algo("Buble Sort 1");
-    executor.run(bubleSort1, datasets, logger);
+    executor.run(bubbleSort1, datasets, logger);
 
     logger.set_algo("Buble Sort 2");
-    executor.run(bubleSort2, datasets, logger);
+    executor.run(bubbleSort2, datasets, logger);
 
     logger.set_algo("Buble Sort 3");
-    executor.run(bubleSort3, datasets, logger);
+    executor.run(bubbleSort3, datasets, logger);
 
     /*
         logger.set_algo("Quicksort");

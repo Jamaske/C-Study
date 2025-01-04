@@ -15,7 +15,7 @@ Logger::Logger(const std::string& filePath, int datasetSize, bool verbose) : log
 
 
 void Logger::set_algo(const std::string& algo) {
-    summerize();
+    summarize();
     this->algo = algo;
     cnt = 0;
     std::cout << "\n\n------" << algo << "-----\n";
@@ -31,7 +31,7 @@ void Logger::timestamp_ps(double time) {
     ++cnt;
 }
 
-void Logger::summerize() {
+void Logger::summarize() {
     if (!cnt) return;
     double mean = std::accumulate(results.begin(), results.begin() + cnt, .0F) / cnt;
     std::transform(results.begin(), results.begin() + cnt, results.begin(), [mean](double time) {return (time - mean) * (time - mean);});
@@ -43,6 +43,6 @@ void Logger::summerize() {
 }
 
 Logger::~Logger() {
-    summerize();
+    summarize();
     logFile.close();
 }
