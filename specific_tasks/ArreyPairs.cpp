@@ -27,16 +27,16 @@ void quicksort(int arr[], int end, int start = 0){
 
 int main(){
     int arr[]={3,5,6,3,6,7};//correct ans 8
-    int lenth  =sizeof(arr) / sizeof (arr[0]);
+    int length  =sizeof(arr) / sizeof (arr[0]);
     int unic;
 
-    if (lenth < 2){
-        unic = lenth;
+    if (length < 2){
+        unic = length;
     }
     else {
-        quicksort(arr, lenth - 1);
+        quicksort(arr, length - 1);
         unic = 1;
-        for (int i = 0; i < lenth-1; i++) {
+        for (int i = 0; i < length-1; i++) {
             if(arr[i] != arr[i+1]){
                 unic++;
             }

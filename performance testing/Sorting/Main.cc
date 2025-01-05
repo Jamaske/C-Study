@@ -93,7 +93,7 @@ void selectionSort2(std::vector<int>& data) {
     int max1, max2;
     uint64_t i, j;
 
-    //one pass in damb way. to enhure biigest elament at the end.
+    //one pass in a dumb way to ensure the biggest element at the end.
     max1 = data[0];
     for (i = 1; i < n - 1; ++i) {
         if (max1 < data[i]) {
@@ -139,7 +139,7 @@ void selectionSort2(std::vector<int>& data) {
 }
 
 
-bool order_cheack(std::vector<int> arr) {
+bool order_check(std::vector<int> arr) {
     uint64_t n = arr.size() - 1;
     bool sorted = true;
     for (uint64_t i = 0; i < n; ++i) {
@@ -152,8 +152,8 @@ bool order_cheack(std::vector<int> arr) {
 
 /*
 TODO
-1) добавить возможность проверки результата работы на коректность
-2) добавить прослойку-обёртку для даных или сортировки, для подсчёта числа операций.
+1) добавить возможность проверки результата работы на корректность
+2) добавить прослойку-обёртку для данных или сортировки, для подсчёта числа операций.
 3) возможность warmup запусков. С тумблером для использование функций 1) и 2)
 
 4) Проверить и отдебажить selectionSort2
@@ -164,7 +164,7 @@ int main() {
     int mesurments = 16;
     int burstCount = 128;
     int warmupRounds = 16;
-    unsigned seed = 42; // Fixed seed for reproducibility
+    unsigned seed = 42; // Fixed seed for reproducibility of results
     bool verbose_log = false;
     // Components Initialization
     auto datasets = DataSetGenerator::generate(burstCount + warmupRounds, datasetSize, seed);

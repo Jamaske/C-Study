@@ -14,11 +14,11 @@ int main() {
     }
     size_t writen = file.write(reinterpret_cast<char*>(&ints_arr), N * sizeof(uint16_t));
     //while (true);
-    std::cout << "Done!!! \t" << writen << " bytes is writen" << std::endl;
+    std::cout << "Done!!! \t" << writen << " bytes is written" << std::endl;
 
     file.close();
 
     File src("data.bin", File::Mode::read);
     size_t read = src.read();
-    std::cout << src.buffer << "\nReadend bytes from file: " << read << std::endl;
+    std::cout << src.buffer << "\nBytes read from file: " << read << std::endl;
 }

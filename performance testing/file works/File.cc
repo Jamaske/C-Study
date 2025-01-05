@@ -29,7 +29,7 @@ void File::Handle::init(State new_mode, const char* name) {
     state = new_mode;
 
     struct stat prop;
-    if (fstat((int)file, &prop)) throw std::runtime_error("Cant access file propertys");
+    if (fstat((int)file, &prop)) throw std::runtime_error("Can't access file properties");
     size = prop.st_size;
 }
 
@@ -118,7 +118,7 @@ inline void File::alloc_buffer(size_t size) {
 
 
 #ifdef _WIN32
-// Windows implemintation
+// Windows implementation
 # include <windows.h>
 
 void File::open(const char* name, State state) {
