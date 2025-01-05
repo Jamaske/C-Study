@@ -1,6 +1,6 @@
 /*
-there are different types of integer devision.
-1) trancate (C/C++ java)
+there are different types of integer division.
+1) truncate (C/C++ java)
 2) floor (Python)
 3) ceil
 4) rounded
@@ -10,7 +10,7 @@ there are different types of integer devision.
 
 #include <tuple>
 
-auto tranc_div(int a, int b){
+auto trunc_div(int a, int b){
     return std::tuple(a/b, a%b);
 }
 

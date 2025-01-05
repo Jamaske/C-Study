@@ -8,7 +8,7 @@ void Div(int a, int b) {
 int main() {
     Div(3, 2);
     Div(-3, 2);
-    std::cout << "b newgative \n";
+    std::cout << "b negative \n";
     Div(3, -2);
     Div(-3, -2);
 }

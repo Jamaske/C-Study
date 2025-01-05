@@ -154,7 +154,7 @@ struct vector_map
 
 struct solution {
 
-    //parseing solution sequence, restoreing operation order, checking for validyty
+    //parsing solution sequence, restoring operation order, checking validity
     static u64 validate_solution_calls;
     static bool validate_solution(std::vector<expr>& solution, bool verbose) {
         ++validate_solution_calls;
@@ -199,7 +199,7 @@ struct solution {
         }
     }
 
-    //full solution (houpfully)
+    //full solution (hopefully)
     static std::vector<expr> full_solution;
     static u64 update_full_solution_calls;
     static void update_full_solution(vector_set<expr>& new_solution) {

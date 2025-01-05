@@ -10,7 +10,7 @@ int f(int arg) {
 }
 
 int main() {
-    printf("main entrence\n");
+    printf("main entrance\n");
     char somechar = 'C';
     int ret = 0x21746572;
     ret = f(5);
