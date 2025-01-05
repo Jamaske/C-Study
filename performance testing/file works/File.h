@@ -12,10 +12,10 @@ private:
         size_t size;
         enum State {
             close,
-            read,//radonly
+            read,//readonly
             write,//overwrite
             both,//read&write
-            append,//loging
+            append,//logging
         } state;
         Handle();
         ~Handle();

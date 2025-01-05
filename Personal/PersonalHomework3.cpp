@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int* binomialCoefitians(int n) {
+int* binomialCoefficients(int n) {
     int* const arr = new int[n]{1};
 
     for (int k = 1; k <= n; k++){
@@ -16,7 +16,7 @@ int* binomialCoefitians(int n) {
 int main(){
     int n;
     cin >> n;
-    const int* const binomial = binomialCoefitians(n);
+    const int* const binomial = binomialCoefficients(n);
 
     for (int i = 0; i < n; i++){
         cout<< binomial[i] << "*" << "a^" << i << "*b^" << n-i << " + ";

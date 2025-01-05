@@ -96,7 +96,7 @@ void coutMatrix(int **&matrix, int h, int w, int cell_size,int el_num, bool RowC
         cout << endl;
     }
 
-    //первоя строка
+    //первая строка
     if(h > 0) {
         if (L!='x') cout << L ;
         if (w > 0) cout << stl(GetElement(matrix, 0, 0, h,  w, el_num, RowCountPrior), cell_size);

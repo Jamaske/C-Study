@@ -5,16 +5,16 @@
 /*
 types of operands
 1) const - t,f
-imidiate result no opStak or value in progress needed
+immediate result no opStack or value in progress needed
 2) inversion, evevalention - !(...), xxxx
-not imidiate has to wait untill iner expression is evaluated
-need opStak entry to regurn to after iner exp evaluation
-has only one argument so as soon as it is ready can get the answer.
-has no intermidiate result. so no data storage required
+not immediate has to wait untill inner expression is evaluated
+need opStack entry to regurn to after inner exp evaluation
+it has only one argument, so as soon as it is ready, it can get the answer
+has no intermediate result. so no data storage required
 3) comosits - &(...), |(...)
-it is not immidiate too. opStack entry needed
+it is not immediate too. opStack entry needed
 has multiple arguments need to waite untill all.
-So have to store intermidiate result.
+So have to store intermediate result.
 But we can implement short-circuit evaluation.
 Just stop bother with calculation if it already predetermined
 so until short-circuit mode is on default values will be
@@ -60,8 +60,8 @@ public:
     bool parseBoolExpr(std::string expression) {
         cur = expression.c_str();
 
-        // artificialty envelop the expresion with AND
-        // to make use of existion logic and avoid edge case cheack
+        // artificially wrap the expression with AND
+        // to make use of existing logic and avoid edge case checks
         opStack.push(Op::Exp);
 
         //all oparation regurn the result throught this variable
@@ -79,7 +79,7 @@ public:
                 //evaluate constants
             case 't': reg = true; break;
             case 'f': reg = false; break;
-                //at function return pass the value furhter
+                //at function return pass the value further
             case ')': break;
             }
             ++cur;

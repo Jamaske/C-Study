@@ -78,13 +78,13 @@ struct Line{
     Vector Dir;
     bool dirIsNormalised;
 
-    Line(dttp pointX, dttp pointY, dttp pointZ, dttp diractionX, dttp diractionY, dttp diractionZ){
+    Line(dttp pointX, dttp pointY, dttp pointZ, dttp directionX, dttp directionY, dttp directionZ){
         Base.x = pointX;
         Base.y = pointY;
         Base.z = pointZ;
-        Dir.x = diractionX;
-        Dir.y = diractionY;
-        Dir.z = diractionZ;
+        Dir.x = directionX;
+        Dir.y = directionY;
+        Dir.z = directionZ;
         dirIsNormalised = (Dir*Dir == 1);
     }
 
