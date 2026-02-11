@@ -6,6 +6,12 @@ IndentCaseLabels: false
 ColumnLimit: 0
 DerivePointerAlignment: false
 PointerAlignment: Left
-BreakConstructorInitializersStyle: AfterColon
+BreakConstructorInitializersStyle: BeforeComma
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 SpaceBeforeCtorInitializerColon: false
 PackConstructorInitializers : Never
+AlignArrayOfStructures: Right
+MaxEmptyLinesToKeep : 2
+TrailingCommentsAlignmentKinds : Always
+AllowShortBlocksOnASingleLine : Always
+SortIncludes: false
