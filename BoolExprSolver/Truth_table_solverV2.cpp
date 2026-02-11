@@ -7,7 +7,6 @@
 #include <iomanip>
 
 
-
 typedef std::uint8_t u8;
 typedef std::uint16_t u16;
 typedef std::uint32_t u32;
@@ -19,31 +18,39 @@ constexpr u8 interpritations_num = (1 << arg_num);
 constexpr u8 solution_operation_limit = 8;
 constexpr u8 stack_len = arg_num + solution_operation_limit;
 constexpr u64 expression_num = (1 << interpritations_num);
-//constexpr u16 negate = 0b1111'1111'1111'1111;
+// constexpr u16 negate = 0b1111'1111'1111'1111;
 
-//7 segment display expressions
+// 7 segment display expressions
 static std::unordered_set<expr> requests = {
-        0b1011011111101011,
-        0b1111100111100100,
-        0b1101111111110100,
-        0b1011011011011110,
-        0b1010001010111111,
-        0b1000111011111011,
-        0b0011111011110111
-};
+    0b1011011111101011,
+    0b1111100111100100,
+    0b1101111111110100,
+    0b1011011011011110,
+    0b1010001010111111,
+    0b1000111011111011,
+    0b0011111011110111};
 
-//Nand to tetris course operation
+// Nand to tetris course operation
 static u64 nand_calls = 0;
-inline expr NAND(expr a, expr b) { ++nand_calls; return  ~(a & b); }
-//Minecraft operations
-static u64  or_calls = 0;
-inline expr OR(expr a, expr b) { ++or_calls; return a | b; }
+inline expr NAND(expr a, expr b) {
+    ++nand_calls;
+    return ~(a & b);
+}
+// Minecraft operations
+static u64 or_calls = 0;
+inline expr OR(expr a, expr b) {
+    ++or_calls;
+    return a | b;
+}
 static u64 not_calls = 0;
-inline expr NOT(expr x) { ++not_calls; return ~x; }
+inline expr NOT(expr x) {
+    ++not_calls;
+    return ~x;
+}
 
 
-//data structures types
-template<typename T>
+// data structures types
+template <typename T>
 struct vector_set {
     std::vector<T> vector;
     std::unordered_set<T> set;
@@ -93,11 +100,10 @@ struct vector_set {
     }
 };
 
-template<typename T>
-struct vector_map
-{
+template <typename T>
+struct vector_map {
     std::vector<T> vector;
-    std::unordered_map<T, u64 > map;
+    std::unordered_map<T, u64> map;
     vector_map() {
         vector = std::vector<T>();
         map = std::unordered_map<T, u64>();
@@ -224,13 +230,13 @@ namespace solution {
 
 
 */
-constexpr expr stack[stack_len] = { 0 };
+constexpr expr stack[stack_len] = {0};
 cosntexpr
 
-constexpr{
+    constexpr {
     u16 i = interpritations_num;
     expr a = -1;
-    //vector_set tmp;
+    // vector_set tmp;
     while (i >>= 1) {
         a ^= (a << i);
         stack.add(a);
@@ -239,8 +245,5 @@ constexpr{
 
 
 int main() {
-
-
     solution::initialize();
-
 }
